@@ -3,120 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบเบิกอุปกรณ์เครื่องเขียน - บริษัท ไทยซิน</title>
+    <title>ระบบเบิกอุปกรณ์สำนักงาน - Taisin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Sarabun', sans-serif; }
-        .fade-in { animation: fadeIn 0.3s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .slide-up { animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Success Modal Animations */
-        .success-bounce {
-            animation: successBounce 0.6s ease-out 0.2s both;
-        }
-        @keyframes successBounce {
-            0% { transform: scale(0) rotate(0deg); opacity: 0; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
-            100% { transform: scale(1) rotate(360deg); opacity: 1; }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
         
-        .success-check {
-            animation: checkDraw 0.8s ease-out 0.5s both;
-        }
-        @keyframes checkDraw {
-            0% { stroke-dasharray: 0 50; stroke-dashoffset: 0; }
-            100% { stroke-dasharray: 50 50; stroke-dashoffset: 0; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Floating Particles */
-        .particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: float 3s ease-in-out infinite;
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
         }
         
-        .particle-1 { top: 20%; left: 10%; animation-delay: 0s; }
-        .particle-2 { top: 30%; right: 15%; animation-delay: 0.5s; }
-        .particle-3 { top: 60%; left: 20%; animation-delay: 1s; }
-        .particle-4 { top: 70%; right: 25%; animation-delay: 1.5s; }
-        .particle-5 { top: 40%; left: 80%; animation-delay: 2s; }
-        .particle-6 { top: 80%; right: 10%; animation-delay: 2.5s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-            25% { transform: translateY(-10px) rotate(90deg); opacity: 1; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
-            75% { transform: translateY(-10px) rotate(270deg); opacity: 1; }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
         }
         
-        /* Pulse effect for status cards */
-        .status-card {
-            animation: statusPulse 2s ease-in-out infinite;
+        .success-animation {
+            animation: successPulse 0.6s ease-in-out;
         }
-        @keyframes statusPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        
+        @keyframes successPulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
     <!-- Header -->
-    <div class="bg-white shadow-lg border-b-4 border-blue-600">
-        <div class="max-w-6xl mx-auto px-6 py-4">
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="bg-blue-600 text-white p-3 rounded-lg">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"/>
-                        </svg>
-                    </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-clipboard-list text-3xl"></i>
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-800">บริษัทไทยซิน แมนูแฟคเจอริ่ง จำกัด</h1>
-                        <p class="text-xl text-gray-700 font-semibold">ระบบเบิกอุปกรณ์สำนักงาน</p>
+                        <h1 class="text-2xl font-bold">ระบบเบิกอุปกรณ์สำนักงาน</h1>
+                        <p class="text-2xl font-bold text-blue-100">บริษัท ไทยซิน แมนูแฟคเจอริ่ง จำกัด</p>
                     </div>
                 </div>
                 <div class="flex space-x-2">
-                    <button onclick="showAdminPanel()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        📊 ระบบหลังบ้าน
+                    <button onclick="showApproverLogin()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                        <i class="fas fa-user-check mr-2"></i>ผู้อนุมัติ
                     </button>
-                    <button onclick="showApprovalPanel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        ✅ ระบบอนุมัติ
+                    <button onclick="showAdminLogin()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                        <i class="fas fa-user-shield mr-2"></i>Admin
+                    </button>
+                    <button onclick="showReports()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                        <i class="fas fa-chart-bar mr-2"></i>รายงาน
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="max-w-4xl mx-auto p-6">
-        <!-- Main Form -->
-        <div id="mainForm" class="bg-white rounded-xl shadow-xl p-8 mb-6">
-            <form id="requisitionForm">
-                <!-- ข้อมูลผู้เบิก -->
-                <div class="mb-8">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">👤</span>
-                        ข้อมูลผู้เบิก
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div id="welcomeSection" class="fade-in">
+            <div class="bg-white rounded-xl card-shadow p-8 mb-8">
+                <div class="text-center mb-8">
+                    <i class="fas fa-info-circle text-4xl text-blue-500 mb-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">ขั้นตอนการเบิกอุปกรณ์สำนักงาน</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="text-center p-6 bg-blue-50 rounded-lg hover-lift">
+                        <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="font-bold">1</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">กรอกข้อมูล</h3>
+                        <p class="text-gray-600 text-sm">กรอกรายละเอียดการเบิกอุปกรณ์</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-green-50 rounded-lg hover-lift">
+                        <div class="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="font-bold">2</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">ส่งอีเมล</h3>
+                        <p class="text-gray-600 text-sm">ส่งแจ้งเตือนไปยังผู้อนุมัติ</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-yellow-50 rounded-lg hover-lift">
+                        <div class="bg-yellow-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="font-bold">3</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">รอการอนุมัติ</h3>
+                        <p class="text-gray-600 text-sm">รอผู้มีอำนาจพิจารณาอนุมัติ</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-purple-50 rounded-lg hover-lift">
+                        <div class="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="font-bold">4</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">อนุมัติ</h3>
+                        <p class="text-gray-600 text-sm">ได้รับการอนุมัติและรับอุปกรณ์</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="showRequestForm()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all hover-lift">
+                        <i class="fas fa-plus mr-2"></i>เริ่มทำรายการเบิก
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Request Form -->
+        <div id="requestForm" class="hidden fade-in">
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-clipboard-list mr-2 text-blue-500"></i>ฟอร์มเบิกอุปกรณ์สำนักงาน
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="showWelcome()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <form id="supplyRequestForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล *</label>
-                            <input type="text" id="employeeName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ชื่อผู้เบิก *</label>
+                            <input type="text" id="requesterName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
+                        
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">รหัสพนักงาน *</label>
-                            <input type="text" id="employeeId" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">แผนก/หน่วยงาน *</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">แผนก/หน่วยงาน *</label>
                             <select id="department" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 <option value="">เลือกแผนก</option>
                                 <option value="ฝ่ายบริหาร">ฝ่ายบริหาร</option>
@@ -137,145 +172,518 @@
                             </select>
                         </div>
                     </div>
-                </div>
 
-                <!-- รายการอุปกรณ์ -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                            <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">📝</span>
-                            รายการอุปกรณ์เครื่องเขียน
-                        </h2>
-                        <button type="button" onclick="addItem()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center">
-                            <span class="mr-2">+</span> เพิ่มรายการ
-                        </button>
-                    </div>
-                    <div id="itemsList" class="space-y-4">
-                        <!-- รายการจะถูกเพิ่มที่นี่ -->
-                    </div>
-                </div>
-
-                <!-- วัตถุประสงค์และความเร่งด่วน -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">วัตถุประสงค์ *</label>
-                        <select id="purpose" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">เลือกวัตถุประสงค์</option>
-                            <option value="ใช้งานประจำ">ใช้งานประจำ</option>
-                            <option value="โครงการพิเศษ">โครงการพิเศษ</option>
-                            <option value="งานด่วน">งานด่วน</option>
-                            <option value="ทดแทนของเสีย">ทดแทนของเสีย</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">ความเร่งด่วน *</label>
-                        <select id="urgency" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">เลือกความเร่งด่วน</option>
-                            <option value="ปกติ">ปกติ (3-5 วัน)</option>
-                            <option value="เร่งด่วน">เร่งด่วน (1-2 วัน)</option>
-                            <option value="ด่วนมาก">ด่วนมาก (ภายในวันนี้)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- หมายเหตุ -->
-                <div class="mb-8">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">หมายเหตุเพิ่มเติม</label>
-                    <textarea id="notes" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
-                </div>
-
-                <!-- ปุ่มส่ง -->
-                <div class="flex justify-center">
-                    <button type="submit" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
-                        📧 ส่งคำขอเบิกอุปกรณ์
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-                <div class="p-6 border-b border-gray-200">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-2xl font-bold text-gray-800">📊 ระบบหลังบ้าน</h2>
-                        <button onclick="closeAdminPanel()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex space-x-4 mb-6">
-                        <button onclick="showAllRequests()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
-                            📋 รายการผู้เบิกทั้งหมด
-                        </button>
-                        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
-                            📊 ส่งออก Excel
-                        </button>
-                        <button onclick="showStats()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                            📈 รายงานสถิติ
-                        </button>
-                    </div>
-                    <div id="adminContent">
-                        <div class="text-center py-8 text-gray-500">
-                            เลือกฟังก์ชันที่ต้องการใช้งาน
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่ต้องการใช้</label>
+                            <input type="date" id="requestDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ผู้อนุมัติ</label>
+                            <select id="approver" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">เลือกผู้อนุมัติ</option>
+                                <option value="thanaphat.n@taisin.co.th">thanaphat.n@taisin.co.th</option>
+                                <option value="jidapa.a@taisin.co.th">jidapa.a@taisin.co.th</option>
+                                <option value="hatairat.k@taisin.co.th">hatairat.k@taisin.co.th</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Items Section -->
+                    <div class="border-t pt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">รายการอุปกรณ์ที่ต้องการเบิก</h3>
+                            <button type="button" onclick="addItem()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-all">
+                                <i class="fas fa-plus mr-2"></i>เพิ่มรายการ
+                            </button>
+                        </div>
+                        
+                        <div id="itemsList" class="space-y-4">
+                            <div class="item-row grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">รายการ</label>
+                                    <select class="item-select w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        <option value="">เลือกรายการ</option>
+                                        <option value="กระดาษ A4">กระดาษ A4</option>
+                                        <option value="กระดาษ A3">กระดาษ A3</option>
+                                        <option value="ปากกาลูกลื่นสีน้ำเงิน">ปากกาลูกลื่นสีน้ำเงิน</option>
+                                        <option value="ปากกาลูกลื่นสีแดง">ปากกาลูกลื่นสีแดง</option>
+                                        <option value="ปากกาไฮไลน์สีเหลือง">ปากกาไฮไลน์สีเหลือง</option>
+                                        <option value="ปากกาไฮไลน์สีแดง">ปากกาไฮไลน์สีแดง</option>
+                                        <option value="ปากกาไฮไลน์สีส้ม">ปากกาไฮไลน์สีส้ม</option>
+                                        <option value="Max">Max</option>
+                                        <option value="ลูกแม็กซ์">ลูกแม็กซ์</option>
+                                        <option value="กรรไกร">กรรไกร</option>
+                                        <option value="ซองถนอมเอกสาร 11 รู">ซองถนอมเอกสาร 11 รู</option>
+                                        <option value="แฟ้ม 1 นิ้ว">แฟ้ม 1 นิ้ว</option>
+                                        <option value="แฟ้ม 1.5 นิ้ว">แฟ้ม 1.5 นิ้ว</option>
+                                        <option value="แฟ้ม 3 นิ้ว">แฟ้ม 3 นิ้ว</option>
+                                        <option value="อื่นๆ">อื่นๆ (ระบุ)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">จำนวน</label>
+                                    <input type="number" class="item-quantity w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" min="1">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">หน่วยนับ</label>
+                                    <select class="item-unit w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        <option value="ชิ้น">ชิ้น</option>
+                                        <option value="รีม">รีม</option>
+                                        <option value="ด้าม">ด้าม</option>
+                                        <option value="กล่อง">กล่อง</option>
+                                        <option value="ตัว">ตัว</option>
+                                        <option value="แพ็ค">แพ็ค</option>
+                                        <option value="อัน">อัน</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="flex items-end">
+                                    <button type="button" onclick="removeItem(this)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition-all">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">หมายเหตุ</label>
+                        <textarea id="remarks" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all hover-lift">
+                            <i class="fas fa-paper-plane mr-2"></i>ส่งคำขอเบิก
+                        </button>
+                        <button type="button" onclick="exportToGoogleSheets()" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-all hover-lift">
+                            <i class="fas fa-table mr-2"></i>ส่งไป Google Sheets
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="hidden fade-in">
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-user-shield mr-2 text-red-500"></i>ระบบจัดการ Admin
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="showWelcome()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-arrow-left mr-2"></i>ย้อนกลับ
+                        </button>
+                        <button onclick="showWelcome()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-blue-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-clipboard-list text-3xl text-blue-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">คำขอทั้งหมด</h3>
+                        <p class="text-2xl font-bold text-blue-600" id="totalRequests">0</p>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-clock text-3xl text-yellow-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">รอการอนุมัติ</h3>
+                        <p class="text-2xl font-bold text-yellow-600" id="pendingRequests">0</p>
+                    </div>
+                    
+                    <div class="bg-green-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-check-circle text-3xl text-green-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">อนุมัติแล้ว</h3>
+                        <p class="text-2xl font-bold text-green-600" id="approvedRequests">0</p>
+                    </div>
+                    
+                    <div class="bg-red-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-times-circle text-3xl text-red-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">ไม่อนุมัติ</h3>
+                        <p class="text-2xl font-bold text-red-600" id="rejectedRequests">0</p>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">จัดการผู้อนุมัติ</h3>
+                        <button onclick="showAddApprover()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-plus mr-2"></i>เพิ่มผู้อนุมัติ
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 mb-8">
+                        <div class="grid md:grid-cols-3 gap-4" id="approversList">
+                            <div class="bg-white p-4 rounded-lg border flex items-center justify-between">
+                                <div>
+                                    <p class="font-semibold text-gray-800">thanaphat.n@taisin.co.th</p>
+                                    <p class="text-sm text-gray-600">ผู้อนุมัติหลัก</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="editApprover('thanaphat.n@taisin.co.th')" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteApprover('thanaphat.n@taisin.co.th')" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg border flex items-center justify-between">
+                                <div>
+                                    <p class="font-semibold text-gray-800">jidapa.a@taisin.co.th</p>
+                                    <p class="text-sm text-gray-600">ผู้อนุมัติ</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="editApprover('jidapa.a@taisin.co.th')" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteApprover('jidapa.a@taisin.co.th')" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg border flex items-center justify-between">
+                                <div>
+                                    <p class="font-semibold text-gray-800">hatairat.k@taisin.co.th</p>
+                                    <p class="text-sm text-gray-600">ผู้อนุมัติ</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="editApprover('hatairat.k@taisin.co.th')" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteApprover('hatairat.k@taisin.co.th')" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">รายการคำขอล่าสุด</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">วันที่</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ผู้เบิก</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">แผนก</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">สถานะ</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">การจัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requestsTable">
+                                <tr>
+                                    <td colspan="5" class="px-4 py-8 text-center text-gray-500">ยังไม่มีข้อมูลคำขอ</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Approval Panel -->
-    <div id="approvalPanel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                <div class="p-6 border-b border-gray-200">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-2xl font-bold text-gray-800">✅ ระบบอนุมัติ</h2>
-                        <button onclick="closeApprovalPanel()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="mb-6">
-                        <!-- คำแนะนำการใช้งาน -->
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                            <h3 class="font-semibold text-blue-800 mb-2">🔐 วิธีเข้าสู่ระบบอนุมัติ</h3>
-                            <div class="text-sm text-blue-700">
-                                <p class="mb-2"><strong>ขั้นตอน:</strong></p>
-                                <ol class="list-decimal list-inside space-y-1">
-                                    <li>เลือกอีเมลของคุณจากรายการ</li>
-                                    <li>กรอกรหัสผ่าน</li>
-                                    <li>กดปุ่ม "เข้าสู่ระบบ"</li>
-                                </ol>
-                                <p class="mt-2 text-xs">💡 หากมีปัญหา กรุณาตรวจสอบให้แน่ใจว่าเลือกอีเมลและกรอกรหัสผ่านถูกต้อง</p>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">อีเมล *</label>
-                                <select id="approvalEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                    <option value="">เลือกอีเมล</option>
-                                    <option value="hatairat.k@taisin.co.th">hatairat.k@taisin.co.th</option>
-                                    <option value="jidapa.a@taisin.co.th">jidapa.a@taisin.co.th</option>
-                                    <option value="thanaphat.n@taisin.co.th">thanaphat.n@taisin.co.th</option>
-                                    <option value="ruangchai.c@taisin.co.th">ruangchai.c@taisin.co.th</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน *</label>
-                                <input type="password" id="approvalPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="กรอกรหัสผ่าน">
-                            </div>
-                        </div>
-                        <button onclick="loginApproval()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
-                            🔑 เข้าสู่ระบบ
+        <!-- Approver Panel -->
+        <div id="approverPanel" class="hidden fade-in">
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-user-check mr-2 text-green-500"></i>ระบบอนุมัติคำขอ
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="showWelcome()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-arrow-left mr-2"></i>ย้อนกลับ
+                        </button>
+                        <button onclick="showWelcome()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
-                    <div id="approvalContent" class="hidden">
-                        <div class="text-center py-8 text-gray-500">
-                            ไม่มีคำขอรออนุมัติในขณะนี้
+                </div>
+
+                <!-- Summary Cards for Approver -->
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-yellow-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-clock text-3xl text-yellow-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">รอการอนุมัติ</h3>
+                        <p class="text-2xl font-bold text-yellow-600" id="approverPendingRequests">0</p>
+                    </div>
+                    
+                    <div class="bg-green-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-check-circle text-3xl text-green-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">อนุมัติแล้ว</h3>
+                        <p class="text-2xl font-bold text-green-600" id="approverApprovedRequests">0</p>
+                    </div>
+                    
+                    <div class="bg-red-50 p-6 rounded-lg text-center hover-lift">
+                        <i class="fas fa-times-circle text-3xl text-red-500 mb-4"></i>
+                        <h3 class="font-semibold text-gray-800 mb-2">ไม่อนุมัติ</h3>
+                        <p class="text-2xl font-bold text-red-600" id="approverRejectedRequests">0</p>
+                    </div>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">กรองตามสถานะ</label>
+                            <select id="statusFilter" onchange="filterApproverRequests()" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="">ทั้งหมด</option>
+                                <option value="รอการอนุมัติ">รอการอนุมัติ</option>
+                                <option value="อนุมัติ">อนุมัติแล้ว</option>
+                                <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">กรองตามแผนก</label>
+                            <select id="departmentFilter" onchange="filterApproverRequests()" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="">ทั้งหมด</option>
+                                <option value="ฝ่ายบริหาร">ฝ่ายบริหาร</option>
+                                <option value="ฝ่าย HR">ฝ่าย HR</option>
+                                <option value="ฝ่าย IT">ฝ่าย IT</option>
+                                <option value="ฝ่าย CS">ฝ่าย CS</option>
+                                <option value="ฝ่าย Account">ฝ่าย Account</option>
+                                <option value="ฝ่าย Cosmetic">ฝ่าย Cosmetic</option>
+                            </select>
+                        </div>
+                        <div class="flex-1"></div>
+                        <button onclick="refreshApproverData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-sync-alt mr-2"></i>รีเฟรช
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Requests Table for Approver -->
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">คำขอที่ต้องพิจารณา</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">วันที่ส่งคำขอ</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">ผู้เบิก</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">แผนก</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">วันที่ต้องการใช้</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">จำนวนรายการ</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">สถานะ</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">การจัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approverRequestsTable">
+                                <tr>
+                                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">ยังไม่มีข้อมูลคำขอ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Panel -->
+        <div id="reportsPanel" class="hidden fade-in">
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-chart-bar mr-2 text-green-500"></i>รายงานสถิติและกราฟ
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="exportReport()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-download mr-2"></i>ส่งออกรายงาน
+                        </button>
+                        <button onclick="refreshReports()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-sync-alt mr-2"></i>รีเฟรช
+                        </button>
+                        <button onclick="showWelcome()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Date Range Filter -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">ตั้งแต่วันที่</label>
+                            <input type="date" id="reportStartDate" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">ถึงวันที่</label>
+                            <input type="date" id="reportEndDate" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">แผนก</label>
+                            <select id="reportDepartmentFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="">ทุกแผนก</option>
+                                <option value="ฝ่ายบริหาร">ฝ่ายบริหาร</option>
+                                <option value="ฝ่าย HR">ฝ่าย HR</option>
+                                <option value="ฝ่าย IT">ฝ่าย IT</option>
+                                <option value="ฝ่าย CS">ฝ่าย CS</option>
+                                <option value="ฝ่าย Account">ฝ่าย Account</option>
+                                <option value="ฝ่าย Cosmetic">ฝ่าย Cosmetic</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="updateReportsData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">
+                                <i class="fas fa-filter mr-2"></i>กรองข้อมูล
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl text-white text-center hover-lift">
+                        <i class="fas fa-clipboard-list text-4xl mb-3 opacity-80"></i>
+                        <h3 class="font-semibold mb-2">คำขอทั้งหมด</h3>
+                        <p class="text-3xl font-bold" id="reportTotalRequests">0</p>
+                        <p class="text-sm opacity-80 mt-1">รายการ</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl text-white text-center hover-lift">
+                        <i class="fas fa-check-circle text-4xl mb-3 opacity-80"></i>
+                        <h3 class="font-semibold mb-2">อนุมัติแล้ว</h3>
+                        <p class="text-3xl font-bold" id="reportApprovedRequests">0</p>
+                        <p class="text-sm opacity-80 mt-1" id="reportApprovalRate">0% ของทั้งหมด</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 p-6 rounded-xl text-white text-center hover-lift">
+                        <i class="fas fa-clock text-4xl mb-3 opacity-80"></i>
+                        <h3 class="font-semibold mb-2">รอการอนุมัติ</h3>
+                        <p class="text-3xl font-bold" id="reportPendingRequests">0</p>
+                        <p class="text-sm opacity-80 mt-1">รายการ</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-500 to-red-600 p-6 rounded-xl text-white text-center hover-lift">
+                        <i class="fas fa-times-circle text-4xl mb-3 opacity-80"></i>
+                        <h3 class="font-semibold mb-2">ไม่อนุมัติ</h3>
+                        <p class="text-3xl font-bold" id="reportRejectedRequests">0</p>
+                        <p class="text-sm opacity-80 mt-1" id="reportRejectionRate">0% ของทั้งหมด</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row 1 -->
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Department Chart -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-building mr-2 text-blue-500"></i>สถิติการเบิกตามแผนก
+                            </h3>
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-chart-bar mr-1"></i>แผนกที่เบิกมากที่สุด
+                            </div>
+                        </div>
+                        <div id="departmentChart" class="space-y-4">
+                            <!-- Chart will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Status Pie Chart -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-chart-pie mr-2 text-green-500"></i>สัดส่วนสถานะคำขอ
+                            </h3>
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-percentage mr-1"></i>อัตราการอนุมัติ
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center mb-6">
+                            <div class="relative w-56 h-56">
+                                <svg id="statusPieChart" class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <!-- Pie segments will be populated by JavaScript -->
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-gray-800" id="pieChartTotal">0</div>
+                                        <div class="text-sm text-gray-600">รายการ</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="statusLegend" class="space-y-2">
+                            <!-- Legend will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 2 -->
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Items Chart -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-box mr-2 text-purple-500"></i>อุปกรณ์ที่เบิกมากที่สุด
+                            </h3>
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-trophy mr-1"></i>Top 10 รายการ
+                            </div>
+                        </div>
+                        <div id="itemsChart" class="space-y-3">
+                            <!-- Chart will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Monthly Trend Chart -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-chart-line mr-2 text-indigo-500"></i>แนวโน้มการเบิกรายเดือน
+                            </h3>
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-calendar-alt mr-1"></i>6 เดือนล่าสุด
+                            </div>
+                        </div>
+                        <div class="flex items-end justify-between h-64 px-2" id="monthlyChart">
+                            <!-- Chart will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Statistics -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-6">
+                        <i class="fas fa-table mr-2 text-orange-500"></i>สถิติรายละเอียด
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Top Requesters -->
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-user-friends mr-2 text-blue-500"></i>ผู้เบิกมากที่สุด
+                            </h4>
+                            <div id="topRequesters" class="space-y-2">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Average Processing Time -->
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-stopwatch mr-2 text-green-500"></i>เวลาเฉลี่ยในการอนุมัติ
+                            </h4>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-2xl font-bold text-green-600" id="avgProcessingTime">-</div>
+                                <div class="text-sm text-gray-600">วัน</div>
+                                <div class="text-xs text-gray-500 mt-1">เฉลี่ยจากคำขอที่อนุมัติแล้ว</div>
+                            </div>
+                        </div>
+
+                        <!-- Peak Hours -->
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-clock mr-2 text-purple-500"></i>ช่วงเวลาที่เบิกมากที่สุด
+                            </h4>
+                            <div id="peakHours" class="space-y-2">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -284,99 +692,226 @@
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full slide-up overflow-hidden">
-                <!-- Header with gradient background -->
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 p-6 text-center relative">
-                    <!-- Animated checkmark -->
-                    <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white mb-4 success-bounce">
-                        <svg class="h-10 w-10 text-green-500 success-check" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-                    
-                    <!-- Floating particles -->
-                    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                        <div class="particle particle-1"></div>
-                        <div class="particle particle-2"></div>
-                        <div class="particle particle-3"></div>
-                        <div class="particle particle-4"></div>
-                        <div class="particle particle-5"></div>
-                        <div class="particle particle-6"></div>
-                    </div>
-                    
-                    <h3 class="text-2xl font-bold text-white mb-2">🎉 เบิกอุปกรณ์สำเร็จ!</h3>
-                    <p class="text-green-100">คำขอของคุณถูกส่งเรียบร้อยแล้ว</p>
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center success-animation">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-3xl text-green-500"></i>
                 </div>
-                
-                <!-- Content -->
-                <div class="p-6">
-                    <div class="space-y-4 mb-6">
-                        <!-- Status info -->
-                        <div class="flex items-center p-3 bg-blue-50 rounded-lg">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <span class="text-blue-600 text-sm">📋</span>
-                                </div>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-blue-900">สถานะ: รออนุมัติ</p>
-                                <p class="text-xs text-blue-700">ระบบได้ส่งอีเมลแจ้งผู้อนุมัติแล้ว</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Next steps -->
-                        <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                                    <span class="text-yellow-600 text-sm">⏰</span>
-                                </div>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-yellow-900">ขั้นตอนต่อไป</p>
-                                <p class="text-xs text-yellow-700">รอการอนุมัติจากผู้มีอำนาจ</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Contact info -->
-                        <div class="flex items-center p-3 bg-purple-50 rounded-lg">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                                    <span class="text-purple-600 text-sm">💬</span>
-                                </div>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-purple-900">ติดตาม</p>
-                                <p class="text-xs text-purple-700">สอบถามได้ที่ผู้อนุมัติโดยตรง</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Action buttons -->
-                    <div class="flex space-x-3">
-                        <button onclick="closeSuccessModal()" class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg">
-                            ✅ เข้าใจแล้ว
-                        </button>
-                        <button onclick="createNewRequest()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors">
-                            📝 เบิกใหม่
-                        </button>
-                    </div>
-                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">ส่งคำขอสำเร็จ!</h3>
+                <p class="text-gray-600">กรุณารอการอนุมัติจากผู้มีอำนาจ</p>
+            </div>
+            <button onclick="closeSuccessModal()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-all">
+                ตกลง
+            </button>
+        </div>
+    </div>
+
+    <!-- Request Details Modal -->
+    <div id="requestDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-2xl mx-4 max-h-screen overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800">รายละเอียดคำขอเบิกอุปกรณ์</h3>
+                <button onclick="closeRequestDetails()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="requestDetailsContent" class="space-y-4">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            
+            <div id="requestActions" class="flex space-x-4 mt-6 pt-6 border-t">
+                <!-- Action buttons will be populated by JavaScript -->
             </div>
         </div>
     </div>
 
-    <script>
-        // รายการอุปกรณ์เครื่องเขียน
-        const stationeryItems = [
-            'ปากกาลูกลื่น', 'ดินสอ', 'ยางลบ', 'ไม้บรรทัด', 'กบเหลา', 'กรรไกร', 'กาว', 'เทป', 
-            'กระดาษ A4', 'แฟ้ม', 'คลิป', 'หมุด', 'สติกเกอร์', 'ปากกาเน้นข้อความ', 'ปากกาเมจิก',
-            'ลวดเย็บกระดาษ', 'เครื่องเย็บกระดาษ', 'เครื่องเจาะกระดาษ', 'ซองเอกสาร', 'กล่องเอกสาร', 'อื่นๆ'
-        ];
+    <!-- Add/Edit Approver Modal -->
+    <div id="approverModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center" id="approverModalTitle">เพิ่มผู้อนุมัติ</h3>
+            <form id="approverForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
+                    <input type="email" id="approverEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">ตำแหน่ง</label>
+                    <input type="text" id="approverPosition" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="เช่น ผู้อนุมัติ, ผู้อนุมัติหลัก">
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-all">บันทึก</button>
+                    <button type="button" onclick="closeApproverModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition-all">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        // ข้อมูลผู้อนุมัติ
-        const approvers = {
+    <!-- Approver Login Modal -->
+    <div id="approverLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">เข้าสู่ระบบผู้อนุมัติ</h3>
+            <form id="approverLoginForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
+                    <select id="approverLoginEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                        <option value="">เลือกอีเมลผู้อนุมัติ</option>
+                        <option value="thanaphat.n@taisin.co.th">thanaphat.n@taisin.co.th</option>
+                        <option value="jidapa.a@taisin.co.th">jidapa.a@taisin.co.th</option>
+                        <option value="hatairat.k@taisin.co.th">hatairat.k@taisin.co.th</option>
+                    </select>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-all">เข้าสู่ระบบ</button>
+                    <button type="button" onclick="closeApproverLogin()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition-all">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">เข้าสู่ระบบ Admin</h3>
+            <form id="adminLoginForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">รหัสผ่าน</label>
+                    <input type="password" id="adminPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-all">เข้าสู่ระบบ</button>
+                    <button type="button" onclick="closeAdminLogin()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition-all">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+        let approvers = JSON.parse(localStorage.getItem('approvers') || '[{"email":"thanaphat.n@taisin.co.th","position":"ผู้อนุมัติหลัก"},{"email":"jidapa.a@taisin.co.th","position":"ผู้อนุมัติ"},{"email":"hatairat.k@taisin.co.th","position":"ผู้อนุมัติ"}]');
+        let editingApprover = null;
+        let currentApproverEmail = null;
+        
+        // Function to create sample data
+        function createSampleData() {
+            const sampleRequests = [
+                {
+                    id: Date.now() - 86400000,
+                    requesterName: 'สมชาย ใจดี',
+                    department: 'ฝ่าย IT',
+                    requestDate: '2024-01-15',
+                    approver: 'thanaphat.n@taisin.co.th',
+                    remarks: 'ใช้สำหรับงานประจำ',
+                    items: [
+                        { item: 'กระดาษ A4', quantity: 5, unit: 'รีม' },
+                        { item: 'ปากกาลูกลื่นสีน้ำเงิน', quantity: 10, unit: 'ด้าม' }
+                    ],
+                    status: 'รอการอนุมัติ',
+                    submittedAt: new Date(Date.now() - 86400000).toISOString()
+                },
+                {
+                    id: Date.now() - 172800000,
+                    requesterName: 'สมหญิง รักงาน',
+                    department: 'ฝ่าย HR',
+                    requestDate: '2024-01-16',
+                    approver: 'jidapa.a@taisin.co.th',
+                    remarks: 'เร่งด่วน',
+                    items: [
+                        { item: 'แฟ้ม 1 นิ้ว', quantity: 20, unit: 'อัน' },
+                        { item: 'ซองถนอมเอกสาร 11 รู', quantity: 100, unit: 'ใบ' }
+                    ],
+                    status: 'รอการอนุมัติ',
+                    submittedAt: new Date(Date.now() - 172800000).toISOString()
+                },
+                {
+                    id: Date.now() - 259200000,
+                    requesterName: 'สมศักดิ์ ขยัน',
+                    department: 'ฝ่าย Account',
+                    requestDate: '2024-01-17',
+                    approver: 'hatairat.k@taisin.co.th',
+                    remarks: '',
+                    items: [
+                        { item: 'ปากกาไฮไลน์สีเหลือง', quantity: 5, unit: 'ด้าม' },
+                        { item: 'กรรไกร', quantity: 2, unit: 'อัน' }
+                    ],
+                    status: 'อนุมัติ',
+                    submittedAt: new Date(Date.now() - 259200000).toISOString()
+                },
+                {
+                    id: Date.now() - 345600000,
+                    requesterName: 'สมใส ทำงาน',
+                    department: 'ฝ่าย CS',
+                    requestDate: '2024-01-18',
+                    approver: 'hatairat.k@taisin.co.th',
+                    remarks: 'ใช้สำหรับประชุมลูกค้า',
+                    items: [
+                        { item: 'กระดาษ A4', quantity: 2, unit: 'รีม' },
+                        { item: 'ปากกาลูกลื่นสีน้ำเงิน', quantity: 5, unit: 'ด้าม' },
+                        { item: 'แฟ้ม 1.5 นิ้ว', quantity: 3, unit: 'อัน' }
+                    ],
+                    status: 'รอการอนุมัติ',
+                    submittedAt: new Date(Date.now() - 345600000).toISOString()
+                },
+                {
+                    id: Date.now() - 432000000,
+                    requesterName: 'สมปอง ขยัน',
+                    department: 'ฝ่าย Cosmetic',
+                    requestDate: '2024-01-19',
+                    approver: 'jidapa.a@taisin.co.th',
+                    remarks: 'สำหรับจัดทำเอกสารผลิตภัณฑ์ใหม่',
+                    items: [
+                        { item: 'ปากกาไฮไลน์สีเหลือง', quantity: 3, unit: 'ด้าม' },
+                        { item: 'ปากกาไฮไลน์สีแดง', quantity: 2, unit: 'ด้าม' },
+                        { item: 'ซองถนอมเอกสาร 11 รู', quantity: 50, unit: 'ใบ' }
+                    ],
+                    status: 'รอการอนุมัติ',
+                    submittedAt: new Date(Date.now() - 432000000).toISOString()
+                },
+                {
+                    id: Date.now() - 518400000,
+                    requesterName: 'สมพร ดีใจ',
+                    department: 'ฝ่าย จัดซื้อ',
+                    requestDate: '2024-01-20',
+                    approver: 'jidapa.a@taisin.co.th',
+                    remarks: 'สำหรับจัดทำใบสั่งซื้อ',
+                    items: [
+                        { item: 'กระดาษ A4', quantity: 3, unit: 'รีม' },
+                        { item: 'Max', quantity: 2, unit: 'ตัว' }
+                    ],
+                    status: 'รอการอนุมัติ',
+                    submittedAt: new Date(Date.now() - 518400000).toISOString()
+                },
+                {
+                    id: Date.now() - 604800000,
+                    requesterName: 'สมหมาย ทำดี',
+                    department: 'ฝ่าย คลังสินค้า',
+                    requestDate: '2024-01-21',
+                    approver: 'jidapa.a@taisin.co.th',
+                    remarks: 'สำหรับติดป้ายสินค้า',
+                    items: [
+                        { item: 'ปากกาลูกลื่นสีแดง', quantity: 10, unit: 'ด้าม' },
+                        { item: 'แฟ้ม 3 นิ้ว', quantity: 5, unit: 'อัน' }
+                    ],
+                    status: 'ไม่อนุมัติ',
+                    submittedAt: new Date(Date.now() - 604800000).toISOString()
+                }
+            ];
+            
+            localStorage.setItem('officeSupplyRequests', JSON.stringify(sampleRequests));
+            console.log('Sample data created:', sampleRequests.length, 'requests');
+        }
+        
+        // Add sample data if no requests exist
+        if (currentRequests.length === 0) {
+            console.log('No existing requests found, creating sample data...');
+            createSampleData();
+            currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+        }
+        
+        // Approver mapping
+        const approverMapping = {
             'ฝ่าย Account': 'hatairat.k@taisin.co.th',
             'ฝ่าย CS': 'hatairat.k@taisin.co.th',
             'ฝ่าย วางแผนการผลิต': 'jidapa.a@taisin.co.th',
@@ -391,1566 +926,1270 @@
             'ฝ่าย วิศวกรรม': 'ruangchai.c@taisin.co.th'
         };
 
-        let itemCounter = 0;
-        let requisitions = JSON.parse(localStorage.getItem('requisitions') || '[]');
+        // Navigation functions
+        function showWelcome() {
+            hideAllSections();
+            document.getElementById('welcomeSection').classList.remove('hidden');
+        }
 
-        // เพิ่มรายการอุปกรณ์แรก
-        document.addEventListener('DOMContentLoaded', function() {
-            addItem();
+        function showRequestForm() {
+            hideAllSections();
+            document.getElementById('requestForm').classList.remove('hidden');
+        }
+
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            document.getElementById('adminLoginModal').classList.add('flex');
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            document.getElementById('adminLoginModal').classList.remove('flex');
+        }
+
+        function showApproverLogin() {
+            document.getElementById('approverLoginModal').classList.remove('hidden');
+            document.getElementById('approverLoginModal').classList.add('flex');
+        }
+
+        function closeApproverLogin() {
+            document.getElementById('approverLoginModal').classList.add('hidden');
+            document.getElementById('approverLoginModal').classList.remove('flex');
+        }
+
+        function showReports() {
+            hideAllSections();
+            document.getElementById('reportsPanel').classList.remove('hidden');
+            
+            // Set default date range (last 30 days)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 30);
+            
+            document.getElementById('reportStartDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('reportEndDate').value = endDate.toISOString().split('T')[0];
+            
+            // Load and update reports data
+            updateReportsData();
+        }
+
+        function hideAllSections() {
+            document.getElementById('welcomeSection').classList.add('hidden');
+            document.getElementById('requestForm').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('approverPanel').classList.add('hidden');
+            document.getElementById('reportsPanel').classList.add('hidden');
+        }
+
+        // Department change handler
+        document.getElementById('department').addEventListener('change', function() {
+            const department = this.value;
+            const approverField = document.getElementById('approver');
+            
+            // Update approver dropdown with current approvers
+            updateApproverDropdown();
+            
+            if (department && approverMapping[department]) {
+                approverField.value = approverMapping[department];
+            } else {
+                approverField.value = '';
+            }
         });
 
-        function addItem() {
-            itemCounter++;
-            const itemsContainer = document.getElementById('itemsList');
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'bg-gray-50 p-4 rounded-lg border fade-in';
-            itemDiv.id = `item-${itemCounter}`;
+        function updateApproverDropdown() {
+            const approverSelect = document.getElementById('approver');
+            approverSelect.innerHTML = '<option value="">เลือกผู้อนุมัติ</option>';
             
-            itemDiv.innerHTML = `
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="font-medium text-gray-700">รายการที่ ${itemCounter}</h3>
-                    ${itemCounter > 1 ? `<button type="button" onclick="removeItem(${itemCounter})" class="text-red-600 hover:text-red-800 text-sm">ลบรายการ</button>` : ''}
+            approvers.forEach(approver => {
+                const option = document.createElement('option');
+                option.value = approver.email;
+                option.textContent = approver.email;
+                approverSelect.appendChild(option);
+            });
+        }
+
+        // Item management functions
+        function addItem() {
+            const itemsList = document.getElementById('itemsList');
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg slide-in';
+            newItem.innerHTML = `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">รายการ</label>
+                    <select class="item-select w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">เลือกรายการ</option>
+                        <option value="กระดาษ A4">กระดาษ A4</option>
+                        <option value="กระดาษ A3">กระดาษ A3</option>
+                        <option value="ปากกาลูกลื่นสีน้ำเงิน">ปากกาลูกลื่นสีน้ำเงิน</option>
+                        <option value="ปากกาลูกลื่นสีแดง">ปากกาลูกลื่นสีแดง</option>
+                        <option value="ปากกาไฮไลน์สีเหลือง">ปากกาไฮไลน์สีเหลือง</option>
+                        <option value="ปากกาไฮไลน์สีแดง">ปากกาไฮไลน์สีแดง</option>
+                        <option value="ปากกาไฮไลน์สีส้ม">ปากกาไฮไลน์สีส้ม</option>
+                        <option value="Max">Max</option>
+                        <option value="ลูกแม็กซ์">ลูกแม็กซ์</option>
+                        <option value="กรรไกร">กรรไกร</option>
+                        <option value="ซองถนอมเอกสาร 11 รู">ซองถนอมเอกสาร 11 รู</option>
+                        <option value="แฟ้ม 1 นิ้ว">แฟ้ม 1 นิ้ว</option>
+                        <option value="แฟ้ม 1.5 นิ้ว">แฟ้ม 1.5 นิ้ว</option>
+                        <option value="แฟ้ม 3 นิ้ว">แฟ้ม 3 นิ้ว</option>
+                        <option value="อื่นๆ">อื่นๆ (ระบุ)</option>
+                    </select>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">อุปกรณ์ *</label>
-                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="toggleOtherInput(this)">
-                            <option value="">เลือกอุปกรณ์</option>
-                            ${stationeryItems.map(item => `<option value="${item}">${item}</option>`).join('')}
-                        </select>
-                        <input type="text" placeholder="ระบุอุปกรณ์อื่นๆ" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-2 hidden other-input">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">จำนวน *</label>
-                        <input type="number" min="1" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">หน่วย *</label>
-                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">เลือกหน่วย</option>
-                            <option value="ชิ้น">ชิ้น</option>
-                            <option value="แพ็ค">แพ็ค</option>
-                            <option value="กล่อง">กล่อง</option>
-                            <option value="ห่อ">ห่อ</option>
-                            <option value="ม้วน">ม้วน</option>
-                            <option value="เล่ม">เล่ม</option>
-                            <option value="อัน">อัน</option>
-                        </select>
-                    </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">จำนวน</label>
+                    <input type="number" class="item-quantity w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" min="1">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">หน่วยนับ</label>
+                    <select class="item-unit w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="ชิ้น">ชิ้น</option>
+                        <option value="รีม">รีม</option>
+                        <option value="ด้าม">ด้าม</option>
+                        <option value="กล่อง">กล่อง</option>
+                        <option value="ตัว">ตัว</option>
+                        <option value="แพ็ค">แพ็ค</option>
+                        <option value="อัน">อัน</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-end">
+                    <button type="button" onclick="removeItem(this)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition-all">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `;
-            
-            itemsContainer.appendChild(itemDiv);
+            itemsList.appendChild(newItem);
         }
 
-        function removeItem(itemId) {
-            const itemElement = document.getElementById(`item-${itemId}`);
-            if (itemElement) {
-                itemElement.remove();
-            }
+        function removeItem(button) {
+            const itemRow = button.closest('.item-row');
+            itemRow.remove();
         }
 
-        function toggleOtherInput(selectElement) {
-            const otherInput = selectElement.parentElement.querySelector('.other-input');
-            if (selectElement.value === 'อื่นๆ') {
-                otherInput.classList.remove('hidden');
-                otherInput.required = true;
-                otherInput.focus();
-            } else {
-                otherInput.classList.add('hidden');
-                otherInput.required = false;
-                otherInput.value = '';
-            }
-        }
-
-        function getApproverEmail(department) {
-            return approvers[department] || 'admin@taisin.co.th';
-        }
-
-        document.getElementById('requisitionForm').addEventListener('submit', function(e) {
+        // Form submission
+        document.getElementById('supplyRequestForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = {
                 id: Date.now(),
-                employeeName: document.getElementById('employeeName').value,
+                requesterName: document.getElementById('requesterName').value,
                 department: document.getElementById('department').value,
-                employeeId: document.getElementById('employeeId').value,
-                purpose: document.getElementById('purpose').value,
-                urgency: document.getElementById('urgency').value,
-                notes: document.getElementById('notes').value,
+                requestDate: document.getElementById('requestDate').value,
+                approver: document.getElementById('approver').value,
+                remarks: document.getElementById('remarks').value,
                 items: [],
-                approver: getApproverEmail(document.getElementById('department').value),
-                status: 'รออนุมัติ',
-                requestDate: new Date().toLocaleDateString('th-TH'),
-                requestTime: new Date().toLocaleTimeString('th-TH')
+                status: 'รอการอนุมัติ',
+                submittedAt: new Date().toISOString()
             };
 
-            // รวบรวมรายการอุปกรณ์
-            const itemElements = document.querySelectorAll('#itemsList > div');
-            itemElements.forEach(item => {
-                const selects = item.querySelectorAll('select');
-                const quantityInput = item.querySelector('input[type="number"]');
-                const otherInput = item.querySelector('.other-input');
+            // Collect items
+            const itemRows = document.querySelectorAll('.item-row');
+            itemRows.forEach(row => {
+                const item = row.querySelector('.item-select').value;
+                const quantity = row.querySelector('.item-quantity').value;
+                const unit = row.querySelector('.item-unit').value;
                 
-                if (selects[0].value && quantityInput.value && selects[1].value) {
-                    let itemName = selects[0].value;
-                    
-                    // ถ้าเลือก "อื่นๆ" ให้ใช้ค่าจาก input field
-                    if (itemName === 'อื่นๆ' && otherInput && otherInput.value.trim()) {
-                        itemName = otherInput.value.trim();
-                    }
-                    
+                if (item && quantity) {
                     formData.items.push({
-                        item: itemName,
-                        quantity: parseInt(quantityInput.value),
-                        unit: selects[1].value
+                        item: item,
+                        quantity: parseInt(quantity),
+                        unit: unit
                     });
                 }
             });
 
-            // บันทึกข้อมูล
-            requisitions.push(formData);
-            localStorage.setItem('requisitions', JSON.stringify(requisitions));
+            if (formData.items.length === 0) {
+                alert('กรุณาเพิ่มรายการอุปกรณ์อย่างน้อย 1 รายการ');
+                return;
+            }
 
-            // ส่งอีเมล
-            sendEmail(formData);
+            // Save to localStorage
+            currentRequests.push(formData);
+            localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+
+            // Send email
+            sendEmailToApprover(formData);
             
-            // แสดง popup สำเร็จ
-            document.getElementById('successModal').classList.remove('hidden');
+            // Show success modal
+            showSuccessModal();
             
-            // รีเซ็ตฟอร์ม
-            document.getElementById('requisitionForm').reset();
-            document.getElementById('itemsList').innerHTML = '';
-            itemCounter = 0;
-            addItem();
+            // Reset form
+            this.reset();
+            document.getElementById('approver').value = '';
         });
 
-        function sendEmail(data) {
-            const subject = `[คำขอเบิกอุปกรณ์] ${data.employeeName} - ${data.department}`;
+        function sendEmailToApprover(requestData) {
+            const subject = `คำขอเบิกอุปกรณ์สำนักงาน - ${requestData.requesterName}`;
             const body = `
-เรียน ผู้มีอำนาจอนุมัติ
+เรียน ผู้อนุมัติ
 
-มีคำขอเบิกอุปกรณ์เครื่องเขียนรออนุมัติ
+มีคำขอเบิกอุปกรณ์สำนักงานใหม่ รายละเอียดดังนี้:
 
-รายละเอียดผู้เบิก:
-- ชื่อ: ${data.employeeName}
-- แผนก: ${data.department}
-- รหัสพนักงาน: ${data.employeeId}
-- วันที่ขอ: ${data.requestDate} ${data.requestTime}
+ผู้เบิก: ${requestData.requesterName}
+แผนก: ${requestData.department}
+วันที่ต้องการใช้: ${requestData.requestDate}
 
 รายการอุปกรณ์:
-${data.items.map(item => `- ${item.item} จำนวน ${item.quantity} ${item.unit}`).join('\n')}
+${requestData.items.map(item => `- ${item.item} จำนวน ${item.quantity} ${item.unit}`).join('\n')}
 
-วัตถุประสงค์: ${data.purpose}
-ความเร่งด่วน: ${data.urgency}
-หมายเหตุ: ${data.notes || 'ไม่มี'}
+หมายเหตุ: ${requestData.remarks || 'ไม่มี'}
 
 กรุณาพิจารณาอนุมัติ
 
 ขอบคุณครับ/ค่ะ
             `;
 
-            const mailtoLink = `mailto:${data.approver}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:${requestData.approver}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(mailtoLink);
+        }
+
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
         }
 
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            showWelcome();
         }
 
-        function createNewRequest() {
-            // ปิด modal
-            document.getElementById('successModal').classList.add('hidden');
+        // Approver login
+        document.getElementById('approverLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('approverLoginEmail').value;
             
-            // เลื่อนไปที่ด้านบนของฟอร์ม
-            document.getElementById('mainForm').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            if (email && approvers.find(a => a.email === email)) {
+                currentApproverEmail = email;
+                closeApproverLogin();
+                hideAllSections();
+                document.getElementById('approverPanel').classList.remove('hidden');
+                updateApproverData();
+            } else {
+                alert('กรุณาเลือกอีเมลผู้อนุมัติ');
+            }
+        });
+
+        // Admin login
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === '123456') {
+                closeAdminLogin();
+                hideAllSections();
+                document.getElementById('adminPanel').classList.remove('hidden');
+                updateAdminData();
+            } else {
+                alert('รหัสผ่านไม่ถูกต้อง');
+            }
+        });
+
+        function updateAdminData() {
+            const totalRequests = currentRequests.length;
+            const pendingRequests = currentRequests.filter(r => r.status === 'รอการอนุมัติ').length;
+            const approvedRequests = currentRequests.filter(r => r.status === 'อนุมัติ').length;
+            const rejectedRequests = currentRequests.filter(r => r.status === 'ไม่อนุมัติ').length;
+
+            document.getElementById('totalRequests').textContent = totalRequests;
+            document.getElementById('pendingRequests').textContent = pendingRequests;
+            document.getElementById('approvedRequests').textContent = approvedRequests;
+            document.getElementById('rejectedRequests').textContent = rejectedRequests;
+
+            // Update approvers list
+            updateApproversList();
+
+            // Update requests table
+            const tableBody = document.getElementById('requestsTable');
+            if (currentRequests.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">ยังไม่มีข้อมูลคำขอ</td></tr>';
+            } else {
+                tableBody.innerHTML = currentRequests.slice(-10).reverse().map(request => `
+                    <tr class="border-t">
+                        <td class="px-4 py-3 text-sm text-gray-700">${new Date(request.submittedAt).toLocaleDateString('th-TH')}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">${request.requesterName}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">${request.department}</td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 text-xs rounded-full ${getStatusColor(request.status)}">
+                                ${request.status}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="flex space-x-2">
+                                <button onclick="viewRequest(${request.id})" class="text-blue-600 hover:text-blue-800 text-sm">
+                                    <i class="fas fa-eye mr-1"></i>ดู
+                                </button>
+                                ${request.status === 'รอการอนุมัติ' ? `
+                                    <button onclick="adminApproveRequest(${request.id})" class="text-green-600 hover:text-green-800 text-sm font-medium px-2 py-1 rounded hover:bg-green-50">
+                                        <i class="fas fa-check mr-1"></i>อนุมัติ
+                                    </button>
+                                    <button onclick="adminRejectRequest(${request.id})" class="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50">
+                                        <i class="fas fa-times mr-1"></i>ไม่อนุมัติ
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'รอการอนุมัติ': return 'bg-yellow-100 text-yellow-800';
+                case 'อนุมัติ': return 'bg-green-100 text-green-800';
+                case 'ไม่อนุมัติ': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function updateReportsData() {
+            console.log('Updating reports data...');
+            
+            // Get filter values
+            const startDate = document.getElementById('reportStartDate')?.value;
+            const endDate = document.getElementById('reportEndDate')?.value;
+            const departmentFilter = document.getElementById('reportDepartmentFilter')?.value;
+            
+            // Filter requests based on criteria
+            let filteredRequests = [...currentRequests];
+            
+            if (startDate) {
+                filteredRequests = filteredRequests.filter(r => 
+                    new Date(r.submittedAt) >= new Date(startDate)
+                );
+            }
+            
+            if (endDate) {
+                filteredRequests = filteredRequests.filter(r => 
+                    new Date(r.submittedAt) <= new Date(endDate + 'T23:59:59')
+                );
+            }
+            
+            if (departmentFilter) {
+                filteredRequests = filteredRequests.filter(r => 
+                    r.department === departmentFilter
+                );
+            }
+            
+            // Update summary cards
+            updateSummaryCards(filteredRequests);
+            
+            // Update charts
+            updateDepartmentChart(filteredRequests);
+            updateStatusPieChart(filteredRequests);
+            updateItemsChart(filteredRequests);
+            updateMonthlyChart(filteredRequests);
+            updateDetailedStats(filteredRequests);
+        }
+
+        function updateSummaryCards(requests) {
+            const total = requests.length;
+            const approved = requests.filter(r => r.status === 'อนุมัติ').length;
+            const pending = requests.filter(r => r.status === 'รอการอนุมัติ').length;
+            const rejected = requests.filter(r => r.status === 'ไม่อนุมัติ').length;
+            
+            const approvalRate = total > 0 ? Math.round((approved / total) * 100) : 0;
+            const rejectionRate = total > 0 ? Math.round((rejected / total) * 100) : 0;
+            
+            document.getElementById('reportTotalRequests').textContent = total;
+            document.getElementById('reportApprovedRequests').textContent = approved;
+            document.getElementById('reportPendingRequests').textContent = pending;
+            document.getElementById('reportRejectedRequests').textContent = rejected;
+            document.getElementById('reportApprovalRate').textContent = `${approvalRate}% ของทั้งหมด`;
+            document.getElementById('reportRejectionRate').textContent = `${rejectionRate}% ของทั้งหมด`;
+        }
+
+        function updateDepartmentChart(requests) {
+            const departmentStats = {};
+            
+            requests.forEach(request => {
+                const dept = request.department;
+                if (!departmentStats[dept]) {
+                    departmentStats[dept] = 0;
+                }
+                departmentStats[dept]++;
             });
             
-            // เน้นช่องชื่อ-นามสกุล
-            setTimeout(() => {
-                document.getElementById('employeeName').focus();
-            }, 500);
-        }
-
-        function showAdminPanel() {
-            document.getElementById('adminPanel').classList.remove('hidden');
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('adminPanel').classList.add('hidden');
-        }
-
-        function showApprovalPanel() {
-            document.getElementById('approvalPanel').classList.remove('hidden');
-        }
-
-        function closeApprovalPanel() {
-            document.getElementById('approvalPanel').classList.add('hidden');
-            // รีเซ็ตระบบอนุมัติเมื่อปิด panel
-            logoutApproval();
-        }
-
-        function logoutApproval() {
-            // รีเซ็ตฟอร์ม
-            document.getElementById('approvalEmail').value = '';
-            document.getElementById('approvalPassword').value = '';
+            const sortedDepts = Object.entries(departmentStats)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 8);
             
-            // แสดงส่วน login กลับมา
-            const loginSection = document.querySelector('#approvalPanel .mb-6');
-            if (loginSection) {
-                loginSection.style.display = 'block';
-            }
+            const maxCount = sortedDepts.length > 0 ? sortedDepts[0][1] : 1;
+            const colors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16', '#F97316'];
             
-            // ซ่อนเนื้อหาอนุมัติ
-            document.getElementById('approvalContent').classList.add('hidden');
-            document.getElementById('approvalContent').innerHTML = '<div class="text-center py-8 text-gray-500">ไม่มีคำขอรออนุมัติในขณะนี้</div>';
-            
-            // รีเซ็ตตัวแปร
-            currentApproverEmail = '';
-        }
-
-        function loginApproval() {
-            const email = document.getElementById('approvalEmail').value;
-            const password = document.getElementById('approvalPassword').value;
-            
-            console.log('Login attempt:', { email, password }); // Debug log
-            
-            const validEmails = [
-                'hatairat.k@taisin.co.th',
-                'jidapa.a@taisin.co.th', 
-                'thanaphat.n@taisin.co.th',
-                'ruangchai.c@taisin.co.th'
-            ];
-            
-            if (!email) {
-                alert('❌ กรุณาเลือกอีเมล');
-                return;
-            }
-            
-            if (!password) {
-                alert('❌ กรุณากรอกรหัสผ่าน');
-                return;
-            }
-            
-            if (!validEmails.includes(email)) {
-                alert('❌ อีเมลไม่ถูกต้อง\nอีเมลที่ใช้ได้:\n- hatairat.k@taisin.co.th\n- jidapa.a@taisin.co.th\n- thanaphat.n@taisin.co.th\n- ruangchai.c@taisin.co.th');
-                return;
-            }
-            
-            if (password !== '123456') {
-                alert('❌ รหัสผ่านไม่ถูกต้อง\nรหัสผ่านที่ถูกต้อง: 123456');
-                return;
-            }
-            
-            // Login สำเร็จ
-            alert('✅ เข้าสู่ระบบสำเร็จ!');
-            document.getElementById('approvalContent').classList.remove('hidden');
-            
-            // ซ่อนส่วน login
-            document.querySelector('#approvalPanel .mb-6').style.display = 'none';
-            
-            // แสดงข้อมูลผู้ใช้ที่ล็อกอิน
-            const userInfo = document.createElement('div');
-            userInfo.className = 'bg-green-50 border border-green-200 rounded-lg p-3 mb-4';
-            userInfo.innerHTML = `
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <span class="text-green-600 mr-2">👤</span>
-                        <span class="text-green-800 font-medium">เข้าสู่ระบบแล้ว: ${email}</span>
-                    </div>
-                    <button onclick="logoutApproval()" class="text-red-600 hover:text-red-800 text-sm">ออกจากระบบ</button>
-                </div>
-            `;
-            document.getElementById('approvalContent').insertBefore(userInfo, document.getElementById('approvalContent').firstChild);
-            
-            loadPendingRequests(email);
-        }
-
-        let currentApproverEmail = '';
-
-        function loadPendingRequests(approverEmail) {
-            currentApproverEmail = approverEmail;
-            const pendingRequests = requisitions.filter(req => req.status === 'รออนุมัติ' && req.approver === approverEmail);
-            const content = document.getElementById('approvalContent');
-            
-            if (pendingRequests.length === 0) {
-                content.innerHTML = '<div class="text-center py-8 text-gray-500">ไม่มีคำขอรออนุมัติในขณะนี้</div>';
-                return;
-            }
-
-            content.innerHTML = pendingRequests.map(req => `
-                <div class="border rounded-lg p-4 mb-4">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold">${req.employeeName} - ${req.department}</h3>
-                            <p class="text-sm text-gray-600">รหัส: ${req.employeeId} | วันที่: ${req.requestDate}</p>
+            const chartHTML = sortedDepts.map(([dept, count], index) => {
+                const percentage = Math.round((count / maxCount) * 100);
+                const color = colors[index % colors.length];
+                
+                return `
+                    <div class="flex items-center group hover:bg-gray-50 p-2 rounded-lg transition-all">
+                        <div class="w-24 text-sm text-gray-700 font-medium">${dept.replace('ฝ่าย ', '')}</div>
+                        <div class="flex-1 mx-3">
+                            <div class="bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-1000 ease-out group-hover:opacity-80" 
+                                     style="width: ${percentage}%; background-color: ${color}"></div>
+                                <span class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-white">
+                                    ${count}
+                                </span>
+                            </div>
                         </div>
-                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">${req.status}</span>
+                        <div class="w-16 text-right text-sm font-semibold" style="color: ${color}">
+                            ${Math.round((count / requests.length) * 100)}%
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <strong>รายการ:</strong>
-                        <ul class="list-disc list-inside ml-4">
-                            ${req.items.map(item => `<li>${item.item} ${item.quantity} ${item.unit}</li>`).join('')}
-                        </ul>
+                `;
+            }).join('');
+            
+            document.getElementById('departmentChart').innerHTML = chartHTML || 
+                '<div class="text-center text-gray-500 py-8">ไม่มีข้อมูล</div>';
+        }
+
+        function updateStatusPieChart(requests) {
+            const total = requests.length;
+            if (total === 0) {
+                document.getElementById('statusPieChart').innerHTML = '';
+                document.getElementById('statusLegend').innerHTML = '<div class="text-center text-gray-500">ไม่มีข้อมูล</div>';
+                document.getElementById('pieChartTotal').textContent = '0';
+                return;
+            }
+            
+            const approved = requests.filter(r => r.status === 'อนุมัติ').length;
+            const pending = requests.filter(r => r.status === 'รอการอนุมัติ').length;
+            const rejected = requests.filter(r => r.status === 'ไม่อนุมัติ').length;
+            
+            const segments = [
+                { label: 'อนุมัติแล้ว', count: approved, color: '#10B981' },
+                { label: 'รอการอนุมัติ', count: pending, color: '#F59E0B' },
+                { label: 'ไม่อนุมัติ', count: rejected, color: '#EF4444' }
+            ].filter(s => s.count > 0);
+            
+            let cumulativePercentage = 0;
+            const circumference = 2 * Math.PI * 40; // radius = 40
+            
+            const svgContent = segments.map(segment => {
+                const percentage = segment.count / total;
+                const strokeDasharray = `${percentage * circumference} ${circumference}`;
+                const strokeDashoffset = -cumulativePercentage * circumference;
+                
+                cumulativePercentage += percentage;
+                
+                return `
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="${segment.color}" stroke-width="20" 
+                            stroke-dasharray="${strokeDasharray}" stroke-dashoffset="${strokeDashoffset}" 
+                            class="transition-all duration-1000 hover:opacity-80">
+                    </circle>
+                `;
+            }).join('');
+            
+            document.getElementById('statusPieChart').innerHTML = svgContent;
+            document.getElementById('pieChartTotal').textContent = total;
+            
+            const legendHTML = segments.map(segment => `
+                <div class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded mr-3" style="background-color: ${segment.color}"></div>
+                        <span class="text-sm text-gray-700">${segment.label}</span>
                     </div>
-                    <div class="mb-3">
-                        <strong>วัตถุประสงค์:</strong> ${req.purpose}<br>
-                        <strong>ความเร่งด่วน:</strong> ${req.urgency}
-                        ${req.notes ? `<br><strong>หมายเหตุ:</strong> ${req.notes}` : ''}
-                    </div>
-                    <div class="flex space-x-2">
-                        <button onclick="approveRequest(${req.id})" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">อนุมัติ</button>
-                        <button onclick="rejectRequest(${req.id})" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">ไม่อนุมัติ</button>
+                    <div class="text-right">
+                        <span class="text-sm font-semibold text-gray-800">${segment.count}</span>
+                        <span class="text-xs text-gray-500 ml-1">(${Math.round((segment.count/total)*100)}%)</span>
                     </div>
                 </div>
             `).join('');
+            
+            document.getElementById('statusLegend').innerHTML = legendHTML;
         }
 
-        function approveRequest(id) {
-            const index = requisitions.findIndex(req => req.id === id);
-            if (index !== -1) {
-                requisitions[index].status = 'อนุมัติแล้ว';
-                requisitions[index].approvedDate = new Date().toLocaleDateString('th-TH');
-                localStorage.setItem('requisitions', JSON.stringify(requisitions));
-                loadPendingRequests(currentApproverEmail);
-                alert('อนุมัติคำขอเรียบร้อยแล้ว');
+        function updateItemsChart(requests) {
+            const itemStats = {};
+            
+            requests.forEach(request => {
+                request.items.forEach(item => {
+                    if (!itemStats[item.item]) {
+                        itemStats[item.item] = 0;
+                    }
+                    itemStats[item.item] += item.quantity;
+                });
+            });
+            
+            const sortedItems = Object.entries(itemStats)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 10);
+            
+            const maxCount = sortedItems.length > 0 ? sortedItems[0][1] : 1;
+            const colors = ['#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#3B82F6', '#84CC16', '#F97316', '#EC4899', '#6366F1'];
+            
+            const chartHTML = sortedItems.map(([item, count], index) => {
+                const percentage = Math.round((count / maxCount) * 100);
+                const color = colors[index % colors.length];
+                
+                return `
+                    <div class="flex items-center group hover:bg-gray-50 p-2 rounded-lg transition-all">
+                        <div class="w-6 h-6 rounded-full mr-3 flex items-center justify-center text-white text-xs font-bold" 
+                             style="background-color: ${color}">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-gray-800 mb-1">${item}</div>
+                            <div class="bg-gray-200 rounded-full h-4 relative overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-1000 ease-out" 
+                                     style="width: ${percentage}%; background-color: ${color}"></div>
+                            </div>
+                        </div>
+                        <div class="ml-3 text-right">
+                            <div class="text-sm font-bold" style="color: ${color}">${count}</div>
+                            <div class="text-xs text-gray-500">ชิ้น</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('itemsChart').innerHTML = chartHTML || 
+                '<div class="text-center text-gray-500 py-8">ไม่มีข้อมูล</div>';
+        }
+
+        function updateMonthlyChart(requests) {
+            const monthlyStats = {};
+            const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const colors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4'];
+            
+            // Initialize last 6 months
+            const now = new Date();
+            for (let i = 5; i >= 0; i--) {
+                const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                monthlyStats[key] = {
+                    count: 0,
+                    label: months[date.getMonth()],
+                    year: date.getFullYear()
+                };
+            }
+            
+            // Count requests by month
+            requests.forEach(request => {
+                const date = new Date(request.submittedAt);
+                const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                if (monthlyStats[key]) {
+                    monthlyStats[key].count++;
+                }
+            });
+            
+            const monthlyData = Object.values(monthlyStats);
+            const maxCount = Math.max(...monthlyData.map(m => m.count), 1);
+            
+            const chartHTML = monthlyData.map((month, index) => {
+                const height = Math.max((month.count / maxCount) * 200, 4);
+                const color = colors[index % colors.length];
+                
+                return `
+                    <div class="flex flex-col items-center group">
+                        <div class="bg-gray-100 rounded-t w-12 mb-2 transition-all duration-1000 hover:opacity-80 relative overflow-hidden" 
+                             style="height: ${height}px;">
+                            <div class="absolute bottom-0 left-0 right-0 rounded-t transition-all duration-1000" 
+                                 style="height: 100%; background-color: ${color}"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-xs font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    ${month.count}
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-600 font-semibold">${month.count}</span>
+                        <span class="text-xs text-gray-500 mt-1">${month.label}</span>
+                        <span class="text-xs text-gray-400">${month.year}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('monthlyChart').innerHTML = chartHTML;
+        }
+
+        function updateDetailedStats(requests) {
+            // Top Requesters
+            const requesterStats = {};
+            requests.forEach(request => {
+                if (!requesterStats[request.requesterName]) {
+                    requesterStats[request.requesterName] = { count: 0, department: request.department };
+                }
+                requesterStats[request.requesterName].count++;
+            });
+            
+            const topRequesters = Object.entries(requesterStats)
+                .sort(([,a], [,b]) => b.count - a.count)
+                .slice(0, 5);
+            
+            const requestersHTML = topRequesters.map(([name, data], index) => `
+                <div class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+                            ${index + 1}
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-800">${name}</div>
+                            <div class="text-xs text-gray-500">${data.department}</div>
+                        </div>
+                    </div>
+                    <div class="text-sm font-bold text-blue-600">${data.count}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('topRequesters').innerHTML = requestersHTML || 
+                '<div class="text-center text-gray-500 py-4">ไม่มีข้อมูล</div>';
+            
+            // Average Processing Time
+            const approvedRequests = requests.filter(r => r.status === 'อนุมัติ' && r.approvedAt);
+            let avgDays = 0;
+            
+            if (approvedRequests.length > 0) {
+                const totalDays = approvedRequests.reduce((sum, request) => {
+                    const submitted = new Date(request.submittedAt);
+                    const approved = new Date(request.approvedAt);
+                    const diffTime = Math.abs(approved - submitted);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return sum + diffDays;
+                }, 0);
+                
+                avgDays = Math.round(totalDays / approvedRequests.length * 10) / 10;
+            }
+            
+            document.getElementById('avgProcessingTime').textContent = avgDays > 0 ? avgDays : '-';
+            
+            // Peak Hours
+            const hourStats = {};
+            requests.forEach(request => {
+                const hour = new Date(request.submittedAt).getHours();
+                if (!hourStats[hour]) {
+                    hourStats[hour] = 0;
+                }
+                hourStats[hour]++;
+            });
+            
+            const peakHours = Object.entries(hourStats)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 3);
+            
+            const peakHoursHTML = peakHours.map(([hour, count], index) => {
+                const timeRange = `${String(hour).padStart(2, '0')}:00-${String(parseInt(hour) + 1).padStart(2, '0')}:00`;
+                const colors = ['#10B981', '#F59E0B', '#EF4444'];
+                
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2" 
+                                 style="background-color: ${colors[index]}">
+                                ${index + 1}
+                            </div>
+                            <span class="text-sm text-gray-700">${timeRange} น.</span>
+                        </div>
+                        <span class="text-sm font-bold" style="color: ${colors[index]}">${count}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('peakHours').innerHTML = peakHoursHTML || 
+                '<div class="text-center text-gray-500 py-4">ไม่มีข้อมูล</div>';
+        }
+
+        function refreshReports() {
+            // Reload data from localStorage
+            currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            
+            // If no requests exist, create sample data
+            if (currentRequests.length === 0) {
+                createSampleData();
+                currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            }
+            
+            updateReportsData();
+            
+            // Show refresh animation
+            const refreshBtn = event.target;
+            const originalHTML = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>กำลังรีเฟรช...';
+            refreshBtn.disabled = true;
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalHTML;
+                refreshBtn.disabled = false;
+            }, 1000);
+        }
+
+        function exportReport() {
+            // Create CSV content
+            const headers = ['วันที่ส่งคำขอ', 'ผู้เบิก', 'แผนก', 'รายการ', 'จำนวน', 'หน่วย', 'สถานะ', 'ผู้อนุมัติ'];
+            let csvContent = headers.join(',') + '\n';
+            
+            currentRequests.forEach(request => {
+                request.items.forEach(item => {
+                    const row = [
+                        new Date(request.submittedAt).toLocaleDateString('th-TH'),
+                        request.requesterName,
+                        request.department,
+                        item.item,
+                        item.quantity,
+                        item.unit,
+                        request.status,
+                        request.approver || ''
+                    ];
+                    csvContent += row.map(field => `"${field}"`).join(',') + '\n';
+                });
+            });
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `รายงานการเบิกอุปกรณ์_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show success message
+            alert('ส่งออกรายงานเรียบร้อยแล้ว');
+        }
+
+        function exportToGoogleSheets() {
+            const formData = new FormData(document.getElementById('supplyRequestForm'));
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit';
+            
+            alert('ฟีเจอร์นี้จะเชื่อมต่อกับ Google Sheets API เพื่อส่งข้อมูลโดยอัตโนมัติ\n\nสำหรับการใช้งานจริง กรุณาติดต่อผู้ดูแลระบบเพื่อตั้งค่า Google Sheets Integration');
+            
+            // In a real implementation, you would:
+            // 1. Set up Google Sheets API
+            // 2. Create a service account
+            // 3. Use the API to append data to the sheet
+        }
+
+        function viewRequest(requestId) {
+            const request = currentRequests.find(r => r.id === requestId);
+            if (request) {
+                showRequestDetails(request);
             }
         }
 
-        function rejectRequest(id) {
-            const reason = prompt('กรุณาระบุเหตุผลที่ไม่อนุมัติ:');
-            if (reason) {
-                const index = requisitions.findIndex(req => req.id === id);
-                if (index !== -1) {
-                    requisitions[index].status = 'ไม่อนุมัติ';
-                    requisitions[index].rejectReason = reason;
-                    requisitions[index].rejectedDate = new Date().toLocaleDateString('th-TH');
-                    localStorage.setItem('requisitions', JSON.stringify(requisitions));
-                    loadPendingRequests(currentApproverEmail);
+        function showRequestDetails(request) {
+            const modal = document.getElementById('requestDetailsModal');
+            const content = document.getElementById('requestDetailsContent');
+            const actions = document.getElementById('requestActions');
+            
+            // Populate content
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">ผู้เบิก</label>
+                        <p class="text-gray-800">${request.requesterName}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">แผนก</label>
+                        <p class="text-gray-800">${request.department}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">วันที่ส่งคำขอ</label>
+                        <p class="text-gray-800">${new Date(request.submittedAt).toLocaleDateString('th-TH', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">วันที่ต้องการใช้</label>
+                        <p class="text-gray-800">${request.requestDate ? new Date(request.requestDate).toLocaleDateString('th-TH') : 'ไม่ระบุ'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">ผู้อนุมัติ</label>
+                        <p class="text-gray-800">${request.approver || 'ไม่ระบุ'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">สถานะ</label>
+                        <span class="px-3 py-1 text-sm rounded-full ${getStatusColor(request.status)}">
+                            ${request.status}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">รายการอุปกรณ์</label>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="space-y-2">
+                            ${request.items.map(item => `
+                                <div class="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
+                                    <span class="text-gray-800">${item.item}</span>
+                                    <span class="text-gray-600 font-semibold">${item.quantity} ${item.unit}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                ${request.remarks ? `
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">หมายเหตุ</label>
+                        <p class="text-gray-800 bg-gray-50 p-3 rounded-lg">${request.remarks}</p>
+                    </div>
+                ` : ''}
+            `;
+            
+            // Populate actions
+            if (request.status === 'รอการอนุมัติ') {
+                actions.innerHTML = `
+                    <button onclick="approveRequest(${request.id})" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-all">
+                        <i class="fas fa-check mr-2"></i>อนุมัติ
+                    </button>
+                    <button onclick="rejectRequest(${request.id})" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all">
+                        <i class="fas fa-times mr-2"></i>ไม่อนุมัติ
+                    </button>
+                    <button onclick="closeRequestDetails()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition-all">
+                        ปิด
+                    </button>
+                `;
+            } else {
+                actions.innerHTML = `
+                    <button onclick="closeRequestDetails()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-all">
+                        ปิด
+                    </button>
+                `;
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRequestDetails() {
+            document.getElementById('requestDetailsModal').classList.add('hidden');
+            document.getElementById('requestDetailsModal').classList.remove('flex');
+        }
+
+        function approveRequest(requestId) {
+            if (confirm('คุณต้องการอนุมัติคำขอนี้หรือไม่?')) {
+                const requestIndex = currentRequests.findIndex(r => r.id === requestId);
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'อนุมัติ';
+                    currentRequests[requestIndex].approvedAt = new Date().toISOString();
+                    currentRequests[requestIndex].approvedBy = currentApproverEmail || 'admin';
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    
+                    // Send approval email
+                    sendApprovalEmail(currentRequests[requestIndex], true);
+                    
+                    // Update both admin and approver data
+                    if (currentApproverEmail) {
+                        updateApproverData();
+                    } else {
+                        updateAdminData();
+                    }
+                    closeRequestDetails();
+                    
+                    // Show success message
+                    alert('อนุมัติคำขอเรียบร้อยแล้ว');
+                }
+            }
+        }
+
+        function rejectRequest(requestId) {
+            const reason = prompt('กรุณาระบุเหตุผลในการไม่อนุมัติ:');
+            if (reason !== null && reason.trim() !== '') {
+                const requestIndex = currentRequests.findIndex(r => r.id === requestId);
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'ไม่อนุมัติ';
+                    currentRequests[requestIndex].rejectedAt = new Date().toISOString();
+                    currentRequests[requestIndex].rejectionReason = reason;
+                    currentRequests[requestIndex].rejectedBy = currentApproverEmail || 'admin';
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    
+                    // Send rejection email
+                    sendApprovalEmail(currentRequests[requestIndex], false);
+                    
+                    // Update both admin and approver data
+                    if (currentApproverEmail) {
+                        updateApproverData();
+                    } else {
+                        updateAdminData();
+                    }
+                    closeRequestDetails();
+                    
+                    // Show success message
                     alert('ไม่อนุมัติคำขอเรียบร้อยแล้ว');
                 }
             }
         }
 
-        function exportToExcel() {
-            // ตรวจสอบว่ามีข้อมูลหรือไม่
-            if (requisitions.length === 0) {
-                // สร้างข้อมูลตัวอย่างถ้าไม่มีข้อมูล
-                const sampleData = [
-                    {
-                        id: 1,
-                        employeeName: 'สมชาย ใจดี',
-                        department: 'ฝ่าย IT',
-                        employeeId: 'IT001',
-                        purpose: 'ใช้งานประจำ',
-                        urgency: 'ปกติ',
-                        notes: 'สำหรับงานประจำวัน',
-                        items: [
-                            { item: 'ปากกาลูกลื่น', quantity: 5, unit: 'ชิ้น' },
-                            { item: 'กระดาษ A4', quantity: 1, unit: 'แพ็ค' }
-                        ],
-                        approver: 'thanaphat.n@taisin.co.th',
-                        status: 'อนุมัติแล้ว',
-                        requestDate: new Date().toLocaleDateString('th-TH'),
-                        requestTime: new Date().toLocaleTimeString('th-TH')
-                    },
-                    {
-                        id: 2,
-                        employeeName: 'สมหญิง รักงาน',
-                        department: 'ฝ่าย HR',
-                        employeeId: 'HR002',
-                        purpose: 'โครงการพิเศษ',
-                        urgency: 'เร่งด่วน',
-                        notes: 'สำหรับงานสัมมนา',
-                        items: [
-                            { item: 'แฟ้ม', quantity: 10, unit: 'เล่ม' },
-                            { item: 'ปากกาเน้นข้อความ', quantity: 3, unit: 'ชิ้น' }
-                        ],
-                        approver: 'thanaphat.n@taisin.co.th',
-                        status: 'รออนุมัติ',
-                        requestDate: new Date().toLocaleDateString('th-TH'),
-                        requestTime: new Date().toLocaleTimeString('th-TH')
-                    }
-                ];
-                
-                alert('⚠️ ไม่มีข้อมูลจริง กำลังสร้างไฟล์ตัวอย่างให้คุณ');
-                createExcelFile(sampleData);
-                return;
-            }
+        function sendApprovalEmail(requestData, isApproved) {
+            const subject = `${isApproved ? 'อนุมัติ' : 'ไม่อนุมัติ'}คำขอเบิกอุปกรณ์สำนักงาน - ${requestData.requesterName}`;
+            const body = `
+เรียน ${requestData.requesterName}
 
-            createExcelFile(requisitions);
-        }
+${isApproved ? 'คำขอเบิกอุปกรณ์สำนักงานของท่านได้รับการอนุมัติแล้ว' : 'คำขอเบิกอุปกรณ์สำนักงานของท่านไม่ได้รับการอนุมัติ'}
 
-        function createExcelFile(data, dateRange = null) {
-            try {
-                // แสดงสถานะกำลังประมวลผล
-                const exportButton = document.querySelector('button[onclick="exportToExcel()"]');
-                const originalText = exportButton.innerHTML;
-                exportButton.innerHTML = '⏳ กำลังสร้างไฟล์...';
-                exportButton.disabled = true;
+รายละเอียดคำขอ:
+แผนก: ${requestData.department}
+วันที่ส่งคำขอ: ${new Date(requestData.submittedAt).toLocaleDateString('th-TH')}
 
-                // ตรวจสอบว่า XLSX library โหลดแล้วหรือยัง
-                if (typeof XLSX === 'undefined') {
-                    throw new Error('ไลบรารี XLSX ยังไม่โหลด กรุณารอสักครู่แล้วลองใหม่');
-                }
+รายการอุปกรณ์:
+${requestData.items.map(item => `- ${item.item} จำนวน ${item.quantity} ${item.unit}`).join('\n')}
 
-                console.log('เริ่มสร้างไฟล์ Excel...', { dataLength: data.length });
+${!isApproved && requestData.rejectionReason ? `เหตุผลที่ไม่อนุมัติ: ${requestData.rejectionReason}` : ''}
 
-                // สร้าง workbook
-                const wb = XLSX.utils.book_new();
+${isApproved ? 'กรุณาติดต่อเจ้าหน้าที่เพื่อรับอุปกรณ์' : 'หากมีข้อสงสัย กรุณาติดต่อผู้อนุมัติ'}
 
-                // Sheet 1: รายการเบิกทั้งหมด (แบบละเอียด)
-                const ws_data = [
-                    ['ลำดับ', 'วันที่', 'เวลา', 'ชื่อ-นามสกุล', 'แผนก', 'รหัสพนักงาน', 'รายการ', 'จำนวน', 'หน่วย', 'วัตถุประสงค์', 'ความเร่งด่วน', 'สถานะ', 'ผู้อนุมัติ', 'หมายเหตุ']
-                ];
-
-                let rowNumber = 1;
-                data.forEach(req => {
-                    req.items.forEach((item, index) => {
-                        ws_data.push([
-                            index === 0 ? rowNumber : '', // แสดงลำดับเฉพาะแถวแรกของแต่ละคำขอ
-                            index === 0 ? req.requestDate : '',
-                            index === 0 ? req.requestTime : '',
-                            index === 0 ? req.employeeName : '',
-                            index === 0 ? req.department : '',
-                            index === 0 ? req.employeeId : '',
-                            item.item,
-                            item.quantity,
-                            item.unit,
-                            index === 0 ? req.purpose : '',
-                            index === 0 ? req.urgency : '',
-                            index === 0 ? req.status : '',
-                            index === 0 ? req.approver : '',
-                            index === 0 ? (req.notes || '') : ''
-                        ]);
-                    });
-                    rowNumber++;
-                });
-
-                const ws1 = XLSX.utils.aoa_to_sheet(ws_data);
-                
-                // ปรับความกว้างคอลัมน์
-                ws1['!cols'] = [
-                    { wch: 8 },   // ลำดับ
-                    { wch: 12 },  // วันที่
-                    { wch: 10 },  // เวลา
-                    { wch: 20 },  // ชื่อ
-                    { wch: 25 },  // แผนก
-                    { wch: 12 },  // รหัส
-                    { wch: 25 },  // รายการ
-                    { wch: 8 },   // จำนวน
-                    { wch: 8 },   // หน่วย
-                    { wch: 15 },  // วัตถุประสงค์
-                    { wch: 12 },  // ความเร่งด่วน
-                    { wch: 12 },  // สถานะ
-                    { wch: 25 },  // ผู้อนุมัติ
-                    { wch: 30 }   // หมายเหตุ
-                ];
-
-                XLSX.utils.book_append_sheet(wb, ws1, 'รายการเบิกทั้งหมด');
-
-                // Sheet 2: สรุปสถิติ
-                const stats = {
-                    total: data.length,
-                    pending: data.filter(r => r.status === 'รออนุมัติ').length,
-                    approved: data.filter(r => r.status === 'อนุมัติแล้ว').length,
-                    rejected: data.filter(r => r.status === 'ไม่อนุมัติ').length
-                };
-
-                const uniqueRequesters = new Set(data.map(req => req.employeeId));
-                const totalRequesters = uniqueRequesters.size;
-
-                // คำนวณจำนวนรายการทั้งหมด
-                const totalItems = data.reduce((sum, req) => sum + req.items.length, 0);
-
-                const stats_data = [
-                    ['รายงานสถิติการเบิกอุปกรณ์เครื่องเขียน', ''],
-                    ['บริษัทไทยซิน แมนูแฟคเจอริ่ง จำกัด', ''],
-                    ['วันที่สร้างรายงาน: ' + new Date().toLocaleDateString('th-TH'), ''],
-                    ['', ''],
-                    ['สถิติทั่วไป', ''],
-                    ['รายการ', 'จำนวน'],
-                    ['คำขอทั้งหมด', stats.total],
-                    ['รายการอุปกรณ์ทั้งหมด', totalItems],
-                    ['จำนวนผู้เบิก (ไม่ซ้ำ)', totalRequesters],
-                    ['', ''],
-                    ['สถานะคำขอ', ''],
-                    ['รออนุมัติ', stats.pending],
-                    ['อนุมัติแล้ว', stats.approved],
-                    ['ไม่อนุมัติ', stats.rejected],
-                    ['', ''],
-                    ['สถิติตามแผนก', ''],
-                    ['แผนก', 'จำนวนคำขอ', 'จำนวนผู้เบิก']
-                ];
-
-                const departmentStats = {};
-                const requestersByDept = {};
-                
-                data.forEach(req => {
-                    departmentStats[req.department] = (departmentStats[req.department] || 0) + 1;
-                    
-                    if (!requestersByDept[req.department]) {
-                        requestersByDept[req.department] = new Set();
-                    }
-                    requestersByDept[req.department].add(req.employeeId);
-                });
-
-                Object.entries(departmentStats)
-                    .sort((a, b) => b[1] - a[1]) // เรียงจากมากไปน้อย
-                    .forEach(([dept, count]) => {
-                        stats_data.push([dept, count, requestersByDept[dept].size]);
-                    });
-
-                const ws2 = XLSX.utils.aoa_to_sheet(stats_data);
-                ws2['!cols'] = [{ wch: 35 }, { wch: 15 }, { wch: 15 }];
-                XLSX.utils.book_append_sheet(wb, ws2, 'สรุปสถิติ');
-
-                // Sheet 3: รายการอุปกรณ์ยอดนิยม
-                const itemStats = {};
-                data.forEach(req => {
-                    req.items.forEach(item => {
-                        if (!itemStats[item.item]) {
-                            itemStats[item.item] = { count: 0, totalQty: 0, units: new Set() };
-                        }
-                        itemStats[item.item].count += 1;
-                        itemStats[item.item].totalQty += item.quantity;
-                        itemStats[item.item].units.add(item.unit);
-                    });
-                });
-
-                const popular_data = [
-                    ['รายการอุปกรณ์ยอดนิยม', '', '', ''],
-                    ['เรียงตามจำนวนครั้งที่เบิก', '', '', ''],
-                    ['', '', '', ''],
-                    ['อันดับ', 'รายการ', 'จำนวนครั้งที่เบิก', 'จำนวนรวม', 'หน่วยที่ใช้']
-                ];
-
-                Object.entries(itemStats)
-                    .sort((a, b) => b[1].count - a[1].count)
-                    .forEach(([item, data], index) => {
-                        popular_data.push([
-                            index + 1,
-                            item, 
-                            data.count, 
-                            data.totalQty,
-                            Array.from(data.units).join(', ')
-                        ]);
-                    });
-
-                const ws3 = XLSX.utils.aoa_to_sheet(popular_data);
-                ws3['!cols'] = [{ wch: 8 }, { wch: 25 }, { wch: 15 }, { wch: 12 }, { wch: 15 }];
-                XLSX.utils.book_append_sheet(wb, ws3, 'อุปกรณ์ยอดนิยม');
-
-                // Sheet 4: รายการตามสถานะ
-                const status_data = [
-                    ['รายการตามสถานะ', '', '', '', ''],
-                    ['', '', '', '', ''],
-                    ['สถานะ', 'ชื่อ-นามสกุล', 'แผนก', 'วันที่ขอ', 'จำนวนรายการ']
-                ];
-
-                ['รออนุมัติ', 'อนุมัติแล้ว', 'ไม่อนุมัติ'].forEach(status => {
-                    const statusRequests = data.filter(req => req.status === status);
-                    if (statusRequests.length > 0) {
-                        status_data.push(['', '', '', '', '']); // บรรทัดว่าง
-                        statusRequests.forEach(req => {
-                            status_data.push([
-                                req.status,
-                                req.employeeName,
-                                req.department,
-                                req.requestDate,
-                                req.items.length
-                            ]);
-                        });
-                    }
-                });
-
-                const ws4 = XLSX.utils.aoa_to_sheet(status_data);
-                ws4['!cols'] = [{ wch: 12 }, { wch: 20 }, { wch: 25 }, { wch: 12 }, { wch: 12 }];
-                XLSX.utils.book_append_sheet(wb, ws4, 'รายการตามสถานะ');
-
-                // สร้างชื่อไฟล์
-                const now = new Date();
-                const dateStr = now.toLocaleDateString('th-TH').replace(/\//g, '-');
-                const timeStr = now.toLocaleTimeString('th-TH', { hour12: false }).replace(/:/g, '-');
-                
-                let fileName;
-                if (dateRange) {
-                    fileName = `รายงานเบิกอุปกรณ์_${dateRange.start.replace(/\//g, '-')}_ถึง_${dateRange.end.replace(/\//g, '-')}_${timeStr}.xlsx`;
-                } else {
-                    fileName = `รายงานเบิกอุปกรณ์_${dateStr}_${timeStr}.xlsx`;
-                }
-                
-                console.log('กำลังสร้างไฟล์:', fileName);
-                
-                // ส่งออกไฟล์
-                try {
-                    XLSX.writeFile(wb, fileName);
-                    console.log('ไฟล์ถูกสร้างเรียบร้อยแล้ว');
-                    
-                    // แสดงข้อความสำเร็จพร้อมคำแนะนำ
-                    setTimeout(() => {
-                        const message = `✅ สร้างไฟล์ Excel เรียบร้อยแล้ว!\n\n📁 ชื่อไฟล์: ${fileName}\n\n📊 ไฟล์ประกอบด้วย 4 Sheet:\n• รายการเบิกทั้งหมด (${ws_data.length - 1} รายการ)\n• สรุปสถิติ\n• อุปกรณ์ยอดนิยม\n• รายการตามสถานะ\n\n🔍 วิธีหาไฟล์:\n1. เปิดโฟลเดอร์ Downloads\n2. เรียงไฟล์ตามวันที่ใหม่ล่าสุด\n3. หาไฟล์ที่ขึ้นต้นด้วย "รายงานเบิกอุปกรณ์"\n\n💡 หากไม่พบไฟล์ ให้ดูที่แถบดาวน์โหลดของเบราว์เซอร์`;
-                        
-                        alert(message);
-                        
-                        // แสดงข้อความเพิ่มเติมในคอนโซล
-                        console.log('ไฟล์ควรอยู่ที่:', navigator.userAgent.includes('Windows') ? 
-                            'C:\\Users\\[ชื่อผู้ใช้]\\Downloads\\' : 
-                            '~/Downloads/');
-                        
-                        // คืนค่าปุ่มเดิม
-                        exportButton.innerHTML = originalText;
-                        exportButton.disabled = false;
-                    }, 500);
-                    
-                } catch (writeError) {
-                    console.error('เกิดข้อผิดพลาดในการเขียนไฟล์:', writeError);
-                    throw new Error('ไม่สามารถสร้างไฟล์ได้ อาจเป็นเพราะเบราว์เซอร์บล็อกการดาวน์โหลด');
-                }
-
-            } catch (error) {
-                console.error('Error creating Excel file:', error);
-                alert(`❌ เกิดข้อผิดพลาดในการสร้างไฟล์ Excel\n\nรายละเอียด: ${error.message}\n\n💡 แนะนำ:\n• ลองใช้ปุ่ม "🧪 ทดสอบดาวน์โหลด" ก่อน\n• ตรวจสอบว่าเบราว์เซอร์อนุญาตการดาวน์โหลด\n• ลองปิด Pop-up Blocker`);
-                
-                // คืนค่าปุ่มเดิม
-                exportButton.innerHTML = originalText;
-                exportButton.disabled = false;
-            }
-        }
-
-        function showAllRequests() {
-            const content = document.getElementById('adminContent');
-            
-            if (requisitions.length === 0) {
-                content.innerHTML = `
-                    <div class="text-center py-12">
-                        <div class="text-6xl mb-4">📋</div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2">ยังไม่มีรายการเบิกอุปกรณ์</h3>
-                        <p class="text-gray-500">เมื่อมีการเบิกอุปกรณ์ รายการจะแสดงที่นี่</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // คำนวณสถิติรวม
-            const totalRequests = requisitions.length;
-            const pendingCount = requisitions.filter(req => req.status === 'รออนุมัติ').length;
-            const approvedCount = requisitions.filter(req => req.status === 'อนุมัติแล้ว').length;
-            const rejectedCount = requisitions.filter(req => req.status === 'ไม่อนุมัติ').length;
-            const uniqueRequesters = new Set(requisitions.map(req => req.employeeId)).size;
-
-            content.innerHTML = `
-                <!-- สถิติรวม -->
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                    <div class="bg-blue-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-blue-600">${totalRequests}</div>
-                        <div class="text-sm text-blue-800">คำขอทั้งหมด</div>
-                    </div>
-                    <div class="bg-purple-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-purple-600">${uniqueRequesters}</div>
-                        <div class="text-sm text-purple-800">จำนวนผู้เบิก</div>
-                    </div>
-                    <div class="bg-yellow-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-yellow-600">${pendingCount}</div>
-                        <div class="text-sm text-yellow-800">รออนุมัติ</div>
-                    </div>
-                    <div class="bg-green-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-green-600">${approvedCount}</div>
-                        <div class="text-sm text-green-800">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="bg-red-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-red-600">${rejectedCount}</div>
-                        <div class="text-sm text-red-800">ไม่อนุมัติ</div>
-                    </div>
-                </div>
-
-                <!-- ตัวกรองและการค้นหา -->
-                <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">ค้นหาชื่อ</label>
-                            <input type="text" id="searchName" placeholder="ชื่อ-นามสกุล" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onkeyup="filterRequests()">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">แผนก</label>
-                            <select id="filterDepartment" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="filterRequests()">
-                                <option value="">ทุกแผนก</option>
-                                ${[...new Set(requisitions.map(req => req.department))].sort().map(dept => 
-                                    `<option value="${dept}">${dept}</option>`
-                                ).join('')}
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">สถานะ</label>
-                            <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="filterRequests()">
-                                <option value="">ทุกสถานะ</option>
-                                <option value="รออนุมัติ">รออนุมัติ</option>
-                                <option value="อนุมัติแล้ว">อนุมัติแล้ว</option>
-                                <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
-                            </select>
-                        </div>
-                        <div class="flex items-end">
-                            <button onclick="clearFilters()" class="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
-                                🔄 ล้างตัวกรอง
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- รายการผู้เบิก -->
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="px-6 py-4 bg-gray-50 border-b">
-                        <h3 class="text-lg font-semibold text-gray-800">📋 รายการผู้เบิกทั้งหมด</h3>
-                    </div>
-                    <div id="requestsList" class="divide-y divide-gray-200">
-                        ${generateRequestsList(requisitions)}
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateRequestsList(requests) {
-            if (requests.length === 0) {
-                return '<div class="p-6 text-center text-gray-500">ไม่พบรายการที่ตรงกับเงื่อนไข</div>';
-            }
-
-            return requests
-                .sort((a, b) => new Date(b.requestDate.split('/').reverse().join('-')) - new Date(a.requestDate.split('/').reverse().join('-')))
-                .map(req => {
-                    const statusColor = {
-                        'รออนุมัติ': 'bg-yellow-100 text-yellow-800',
-                        'อนุมัติแล้ว': 'bg-green-100 text-green-800',
-                        'ไม่อนุมัติ': 'bg-red-100 text-red-800'
-                    };
-
-                    const statusIcon = {
-                        'รออนุมัติ': '⏳',
-                        'อนุมัติแล้ว': '✅',
-                        'ไม่อนุมัติ': '❌'
-                    };
-
-                    return `
-                        <div class="p-6 hover:bg-gray-50 transition-colors">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex-1">
-                                    <div class="flex items-center mb-2">
-                                        <h4 class="text-lg font-semibold text-gray-900 mr-3">${req.employeeName}</h4>
-                                        <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor[req.status]}">
-                                            ${statusIcon[req.status]} ${req.status}
-                                        </span>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                                        <div>
-                                            <span class="font-medium">แผนก:</span> ${req.department}
-                                        </div>
-                                        <div>
-                                            <span class="font-medium">รหัสพนักงาน:</span> ${req.employeeId}
-                                        </div>
-                                        <div>
-                                            <span class="font-medium">วันที่เบิก:</span> ${req.requestDate}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">📝 รายการอุปกรณ์ (${req.items.length} รายการ)</h5>
-                                    <div class="bg-gray-50 rounded-lg p-3">
-                                        ${req.items.map(item => `
-                                            <div class="flex justify-between py-1">
-                                                <span class="text-gray-700">${item.item}</span>
-                                                <span class="font-medium text-gray-900">${item.quantity} ${item.unit}</span>
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">ℹ️ รายละเอียดเพิ่มเติม</h5>
-                                    <div class="space-y-2 text-sm">
-                                        <div>
-                                            <span class="font-medium text-gray-700">วัตถุประสงค์:</span>
-                                            <span class="text-gray-600">${req.purpose}</span>
-                                        </div>
-                                        <div>
-                                            <span class="font-medium text-gray-700">ความเร่งด่วน:</span>
-                                            <span class="text-gray-600">${req.urgency}</span>
-                                        </div>
-                                        <div>
-                                            <span class="font-medium text-gray-700">ผู้อนุมัติ:</span>
-                                            <span class="text-gray-600">${req.approver}</span>
-                                        </div>
-                                        ${req.notes ? `
-                                            <div>
-                                                <span class="font-medium text-gray-700">หมายเหตุ:</span>
-                                                <span class="text-gray-600">${req.notes}</span>
-                                            </div>
-                                        ` : ''}
-                                        ${req.rejectReason ? `
-                                            <div>
-                                                <span class="font-medium text-red-700">เหตุผลที่ไม่อนุมัติ:</span>
-                                                <span class="text-red-600">${req.rejectReason}</span>
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-        }
-
-        function filterRequests() {
-            const searchName = document.getElementById('searchName').value.toLowerCase();
-            const filterDepartment = document.getElementById('filterDepartment').value;
-            const filterStatus = document.getElementById('filterStatus').value;
-
-            const filteredRequests = requisitions.filter(req => {
-                const matchName = req.employeeName.toLowerCase().includes(searchName);
-                const matchDepartment = !filterDepartment || req.department === filterDepartment;
-                const matchStatus = !filterStatus || req.status === filterStatus;
-                
-                return matchName && matchDepartment && matchStatus;
-            });
-
-            document.getElementById('requestsList').innerHTML = generateRequestsList(filteredRequests);
-        }
-
-        function clearFilters() {
-            document.getElementById('searchName').value = '';
-            document.getElementById('filterDepartment').value = '';
-            document.getElementById('filterStatus').value = '';
-            filterRequests();
-        }
-
-        function showStats() {
-            document.getElementById('adminContent').innerHTML = `
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h3 class="font-semibold text-blue-800 mb-4">📅 เลือกช่วงเวลาสำหรับรายงาน</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มต้น</label>
-                            <input type="date" id="startDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">วันที่สิ้นสุด</label>
-                            <input type="date" id="endDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">ช่วงเวลาด่วน</label>
-                            <select id="quickRange" onchange="setQuickRange()" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                <option value="">เลือกช่วงเวลา</option>
-                                <option value="today">วันนี้</option>
-                                <option value="yesterday">เมื่อวาน</option>
-                                <option value="thisWeek">สัปดาห์นี้</option>
-                                <option value="lastWeek">สัปดาห์ที่แล้ว</option>
-                                <option value="thisMonth">เดือนนี้</option>
-                                <option value="lastMonth">เดือนที่แล้ว</option>
-                                <option value="last7days">7 วันที่ผ่านมา</option>
-                                <option value="last30days">30 วันที่ผ่านมา</option>
-                                <option value="all">ทั้งหมด</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button onclick="generateStats()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
-                                📊 สร้างรายงาน
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="statsResults">
-                    <div class="text-center py-8 text-gray-500">
-                        เลือกช่วงเวลาและกดปุ่ม "สร้างรายงาน" เพื่อดูสถิติ
-                    </div>
-                </div>
+ขอบคุณครับ/ค่ะ
             `;
 
-            // ตั้งค่าวันที่เริ่มต้น (30 วันที่ผ่านมา)
-            const today = new Date();
-            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            // In a real system, you would send this email automatically
+            // For demo purposes, we'll open the email client
+            const mailtoLink = `mailto:${requestData.requesterName}@taisin.co.th?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink);
+        }
+
+        // Approver management functions
+        function updateApproversList() {
+            const approversList = document.getElementById('approversList');
+            approversList.innerHTML = '';
             
-            document.getElementById('endDate').value = today.toISOString().split('T')[0];
-            document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
-            document.getElementById('quickRange').value = 'last30days';
-        }
-
-        function setQuickRange() {
-            const quickRange = document.getElementById('quickRange').value;
-            const today = new Date();
-            let startDate, endDate;
-
-            switch(quickRange) {
-                case 'today':
-                    startDate = endDate = today;
-                    break;
-                case 'yesterday':
-                    const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
-                    startDate = endDate = yesterday;
-                    break;
-                case 'thisWeek':
-                    const startOfWeek = new Date(today);
-                    startOfWeek.setDate(today.getDate() - today.getDay());
-                    startDate = startOfWeek;
-                    endDate = today;
-                    break;
-                case 'lastWeek':
-                    const lastWeekEnd = new Date(today.getTime() - (today.getDay() * 24 * 60 * 60 * 1000));
-                    const lastWeekStart = new Date(lastWeekEnd.getTime() - (6 * 24 * 60 * 60 * 1000));
-                    startDate = lastWeekStart;
-                    endDate = lastWeekEnd;
-                    break;
-                case 'thisMonth':
-                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-                    endDate = today;
-                    break;
-                case 'lastMonth':
-                    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-                    const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
-                    startDate = lastMonth;
-                    endDate = lastMonthEnd;
-                    break;
-                case 'last7days':
-                    startDate = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000));
-                    endDate = today;
-                    break;
-                case 'last30days':
-                    startDate = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
-                    endDate = today;
-                    break;
-                case 'all':
-                    // หาวันที่เก่าที่สุดและใหม่ที่สุดจากข้อมูล
-                    if (requisitions.length > 0) {
-                        const dates = requisitions.map(req => new Date(req.requestDate.split('/').reverse().join('-')));
-                        startDate = new Date(Math.min(...dates));
-                        endDate = new Date(Math.max(...dates));
-                    } else {
-                        startDate = new Date(today.getTime() - (365 * 24 * 60 * 60 * 1000));
-                        endDate = today;
-                    }
-                    break;
-                default:
-                    return;
-            }
-
-            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
-            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
-        }
-
-        function generateStats() {
-            const startDateStr = document.getElementById('startDate').value;
-            const endDateStr = document.getElementById('endDate').value;
-
-            if (!startDateStr || !endDateStr) {
-                alert('❌ กรุณาเลือกวันที่เริ่มต้นและสิ้นสุด');
-                return;
-            }
-
-            const startDate = new Date(startDateStr);
-            const endDate = new Date(endDateStr + 'T23:59:59'); // รวมทั้งวันสิ้นสุด
-
-            if (startDate > endDate) {
-                alert('❌ วันที่เริ่มต้นต้องไม่เกินวันที่สิ้นสุด');
-                return;
-            }
-
-            // ถ้าไม่มีข้อมูลจริง ให้สร้างข้อมูลตัวอย่าง
-            let dataToUse = requisitions;
-            if (requisitions.length === 0) {
-                dataToUse = createSampleData();
-                alert('⚠️ ไม่มีข้อมูลจริง กำลังแสดงข้อมูลตัวอย่างให้ดู');
-            }
-
-            // กรองข้อมูลตามช่วงเวลา
-            const filteredRequisitions = dataToUse.filter(req => {
-                // แปลงวันที่จาก dd/mm/yyyy เป็น Date object
-                const dateParts = req.requestDate.split('/');
-                if (dateParts.length !== 3) return false;
-                
-                const [day, month, year] = dateParts;
-                const reqDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-                
-                // ตรวจสอบว่าวันที่ถูกต้อง
-                if (isNaN(reqDate.getTime())) return false;
-                
-                return reqDate >= startDate && reqDate <= endDate;
-            });
-
-            if (filteredRequisitions.length === 0) {
-                document.getElementById('statsResults').innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="text-gray-500 mb-4">📊 ไม่พบข้อมูลในช่วงเวลาที่เลือก</div>
-                        <div class="text-sm text-gray-400">
-                            ช่วงเวลา: ${startDate.toLocaleDateString('th-TH')} - ${endDate.toLocaleDateString('th-TH')}
-                        </div>
-                        <button onclick="generateSampleReport()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                            📊 ดูรายงานตัวอย่าง
+            approvers.forEach(approver => {
+                const approverCard = document.createElement('div');
+                approverCard.className = 'bg-white p-4 rounded-lg border flex items-center justify-between';
+                approverCard.innerHTML = `
+                    <div>
+                        <p class="font-semibold text-gray-800">${approver.email}</p>
+                        <p class="text-sm text-gray-600">${approver.position}</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editApprover('${approver.email}')" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteApprover('${approver.email}')" class="text-red-600 hover:text-red-800">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
+                approversList.appendChild(approverCard);
+            });
+        }
+
+        function showAddApprover() {
+            editingApprover = null;
+            document.getElementById('approverModalTitle').textContent = 'เพิ่มผู้อนุมัติ';
+            document.getElementById('approverEmail').value = '';
+            document.getElementById('approverPosition').value = '';
+            document.getElementById('approverModal').classList.remove('hidden');
+            document.getElementById('approverModal').classList.add('flex');
+        }
+
+        function editApprover(email) {
+            const approver = approvers.find(a => a.email === email);
+            if (approver) {
+                editingApprover = email;
+                document.getElementById('approverModalTitle').textContent = 'แก้ไขผู้อนุมัติ';
+                document.getElementById('approverEmail').value = approver.email;
+                document.getElementById('approverPosition').value = approver.position;
+                document.getElementById('approverModal').classList.remove('hidden');
+                document.getElementById('approverModal').classList.add('flex');
+            }
+        }
+
+        function deleteApprover(email) {
+            if (confirm('คุณต้องการลบผู้อนุมัติคนนี้หรือไม่?')) {
+                approvers = approvers.filter(a => a.email !== email);
+                localStorage.setItem('approvers', JSON.stringify(approvers));
+                updateApproversList();
+                updateApproverDropdown();
+            }
+        }
+
+        function closeApproverModal() {
+            document.getElementById('approverModal').classList.add('hidden');
+            document.getElementById('approverModal').classList.remove('flex');
+        }
+
+        // Approver form submission
+        document.getElementById('approverForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('approverEmail').value;
+            const position = document.getElementById('approverPosition').value;
+            
+            if (editingApprover) {
+                // Edit existing approver
+                const index = approvers.findIndex(a => a.email === editingApprover);
+                if (index !== -1) {
+                    approvers[index] = { email, position };
+                }
+            } else {
+                // Add new approver
+                if (approvers.find(a => a.email === email)) {
+                    alert('อีเมลนี้มีอยู่แล้ว');
+                    return;
+                }
+                approvers.push({ email, position });
+            }
+            
+            localStorage.setItem('approvers', JSON.stringify(approvers));
+            updateApproversList();
+            updateApproverDropdown();
+            closeApproverModal();
+        });
+
+        function updateApproverData() {
+            console.log('Updating approver data...');
+            
+            // Reload data from localStorage to ensure we have latest data
+            currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            console.log('Total requests loaded:', currentRequests.length);
+            
+            // If no requests exist, create sample data
+            if (currentRequests.length === 0) {
+                console.log('No requests found, creating sample data...');
+                createSampleData();
+                currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            }
+            
+            // Show ALL requests for approver (not filtering by approver email)
+            const approverRequests = currentRequests;
+            
+            const pendingRequests = approverRequests.filter(r => r.status === 'รอการอนุมัติ').length;
+            const approvedRequests = approverRequests.filter(r => r.status === 'อนุมัติ').length;
+            const rejectedRequests = approverRequests.filter(r => r.status === 'ไม่อนุมัติ').length;
+
+            console.log('Stats - Pending:', pendingRequests, 'Approved:', approvedRequests, 'Rejected:', rejectedRequests);
+
+            // Update summary cards
+            const pendingElement = document.getElementById('approverPendingRequests');
+            const approvedElement = document.getElementById('approverApprovedRequests');
+            const rejectedElement = document.getElementById('approverRejectedRequests');
+            
+            if (pendingElement) pendingElement.textContent = pendingRequests;
+            if (approvedElement) approvedElement.textContent = approvedRequests;
+            if (rejectedElement) rejectedElement.textContent = rejectedRequests;
+
+            // Update requests table
+            updateApproverRequestsTable();
+        }
+
+        function updateApproverRequestsTable() {
+            console.log('Updating approver requests table...');
+            
+            // Ensure we have current data
+            if (currentRequests.length === 0) {
+                console.log('No requests found, creating sample data...');
+                createSampleData();
+                currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            }
+            
+            // Show ALL requests in the system for approver view
+            let filteredRequests = [...currentRequests];
+            console.log('Total requests before filtering:', filteredRequests.length);
+            
+            // Apply filters
+            const statusFilter = document.getElementById('statusFilter')?.value || '';
+            const departmentFilter = document.getElementById('departmentFilter')?.value || '';
+            
+            if (statusFilter) {
+                filteredRequests = filteredRequests.filter(r => r.status === statusFilter);
+                console.log('After status filter:', filteredRequests.length);
+            }
+            
+            if (departmentFilter) {
+                filteredRequests = filteredRequests.filter(r => r.department === departmentFilter);
+                console.log('After department filter:', filteredRequests.length);
+            }
+            
+            const tableBody = document.getElementById('approverRequestsTable');
+            
+            if (!tableBody) {
+                console.error('Table body element not found!');
                 return;
             }
-
-            // คำนวณสถิติจากข้อมูลที่กรองแล้ว
-            const stats = {
-                total: filteredRequisitions.length,
-                pending: filteredRequisitions.filter(r => r.status === 'รออนุมัติ').length,
-                approved: filteredRequisitions.filter(r => r.status === 'อนุมัติแล้ว').length,
-                rejected: filteredRequisitions.filter(r => r.status === 'ไม่อนุมัติ').length
-            };
-
-            // นับจำนวนผู้เบิกที่ไม่ซ้ำกัน
-            const uniqueRequesters = new Set(filteredRequisitions.map(req => req.employeeId));
-            const totalRequesters = uniqueRequesters.size;
-
-            const departmentStats = {};
-            const requestersByDept = {};
             
-            filteredRequisitions.forEach(req => {
-                departmentStats[req.department] = (departmentStats[req.department] || 0) + 1;
-                
-                if (!requestersByDept[req.department]) {
-                    requestersByDept[req.department] = new Set();
-                }
-                requestersByDept[req.department].add(req.employeeId);
-            });
-
-            // สถิติอุปกรณ์ยอดนิยม
-            const itemStats = {};
-            filteredRequisitions.forEach(req => {
-                req.items.forEach(item => {
-                    itemStats[item.item] = (itemStats[item.item] || 0) + item.quantity;
-                });
-            });
-
-            const topItems = Object.entries(itemStats)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 5);
-
-            // แสดงผลสถิติ
-            document.getElementById('statsResults').innerHTML = `
-                <!-- แสดงช่วงเวลาที่เลือก -->
-                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="font-semibold text-green-800">📊 รายงานสถิติ</h3>
-                            <p class="text-sm text-green-700">ช่วงเวลา: ${startDate.toLocaleDateString('th-TH')} - ${endDate.toLocaleDateString('th-TH')}</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-sm text-green-600">พบข้อมูล</div>
-                            <div class="text-lg font-bold text-green-800">${filteredRequisitions.length} รายการ</div>
-                            <button onclick="exportFilteredData()" class="mt-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
-                                📊 ส่งออก Excel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                    <div class="bg-blue-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-blue-600">${stats.total}</div>
-                        <div class="text-sm text-blue-800">คำขอทั้งหมด</div>
-                    </div>
-                    <div class="bg-purple-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-purple-600">${totalRequesters}</div>
-                        <div class="text-sm text-purple-800">จำนวนผู้เบิก</div>
-                    </div>
-                    <div class="bg-yellow-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-yellow-600">${stats.pending}</div>
-                        <div class="text-sm text-yellow-800">รออนุมัติ</div>
-                    </div>
-                    <div class="bg-green-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-green-600">${stats.approved}</div>
-                        <div class="text-sm text-green-800">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="bg-red-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-red-600">${stats.rejected}</div>
-                        <div class="text-sm text-red-800">ไม่อนุมัติ</div>
-                    </div>
-                </div>
-                
-                <!-- กราฟแสดงผล -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">📊 สถานะคำขอ</h3>
-                        <div class="relative h-64">
-                            <canvas id="statusChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">🏢 คำขอตามแผนก</h3>
-                        <div class="relative h-64">
-                            <canvas id="departmentChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">📝 อุปกรณ์ยอดนิยม (Top 5)</h3>
-                        <div class="relative h-64">
-                            <canvas id="itemChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">👥 จำนวนผู้เบิกตามแผนก</h3>
-                        <div class="relative h-64">
-                            <canvas id="requesterChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-3">📊 สถิติคำขอตามแผนก</h3>
-                        ${Object.keys(departmentStats).length > 0 ? 
-                            Object.entries(departmentStats)
-                                .sort((a, b) => b[1] - a[1])
-                                .map(([dept, count]) => `
-                                    <div class="flex justify-between py-2 border-b">
-                                        <span>${dept}</span>
-                                        <span class="font-semibold">${count} คำขอ</span>
-                                    </div>
-                                `).join('') 
-                            : '<div class="text-center py-4 text-gray-500">ไม่มีข้อมูล</div>'
-                        }
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-3">👥 จำนวนผู้เบิกตามแผนก</h3>
-                        ${Object.keys(requestersByDept).length > 0 ? 
-                            Object.entries(requestersByDept)
-                                .sort((a, b) => b[1].size - a[1].size)
-                                .map(([dept, requesters]) => `
-                                    <div class="flex justify-between py-2 border-b">
-                                        <span>${dept}</span>
-                                        <span class="font-semibold">${requesters.size} คน</span>
-                                    </div>
-                                `).join('')
-                            : '<div class="text-center py-4 text-gray-500">ไม่มีข้อมูล</div>'
-                        }
-                    </div>
-                </div>
-            `;
-
-            // เก็บข้อมูลที่กรองไว้สำหรับการส่งออก
-            window.currentFilteredData = {
-                data: filteredRequisitions,
-                dateRange: {
-                    start: startDate.toLocaleDateString('th-TH'),
-                    end: endDate.toLocaleDateString('th-TH')
-                }
-            };
-
-            // สร้างกราฟหลังจากที่ HTML ถูกเพิ่มแล้ว
-            setTimeout(() => {
-                createCharts(stats, departmentStats, requestersByDept, topItems);
-            }, 100);
-        }
-
-        function exportFilteredData() {
-            if (window.currentFilteredData && window.currentFilteredData.data.length > 0) {
-                createExcelFile(window.currentFilteredData.data, window.currentFilteredData.dateRange);
+            if (filteredRequests.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-gray-500">ไม่มีข้อมูลคำขอที่ตรงกับเงื่อนไข</td></tr>';
             } else {
-                alert('❌ ไม่มีข้อมูลสำหรับส่งออก');
+                console.log('Rendering', filteredRequests.length, 'requests');
+                tableBody.innerHTML = filteredRequests.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)).map(request => `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm text-gray-700">${new Date(request.submittedAt).toLocaleDateString('th-TH', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        })}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700 font-medium">${request.requesterName}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">${request.department}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">${request.requestDate ? new Date(request.requestDate).toLocaleDateString('th-TH', {
+                            month: 'short',
+                            day: 'numeric'
+                        }) : 'ไม่ระบุ'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700 text-center">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                ${request.items.length} รายการ
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 text-xs rounded-full font-semibold ${getStatusColor(request.status)}">
+                                ${request.status}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button onclick="viewRequest(${request.id})" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    <i class="fas fa-eye mr-1"></i>ดูรายละเอียด
+                                </button>
+                                ${request.status === 'รอการอนุมัติ' ? `
+                                    <button onclick="quickApprove(${request.id})" class="text-green-600 hover:text-green-800 text-sm font-medium">
+                                        <i class="fas fa-check mr-1"></i>อนุมัติ
+                                    </button>
+                                    <button onclick="quickReject(${request.id})" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                        <i class="fas fa-times mr-1"></i>ไม่อนุมัติ
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
             }
         }
 
-        function createSampleData() {
-            const today = new Date();
-            const sampleData = [];
-            
-            // สร้างข้อมูลตัวอย่าง 15 รายการ
-            const sampleNames = [
-                'สมชาย ใจดี', 'สมหญิง รักงาน', 'วิชัย เก่งงาน', 'นิดา ขยันทำ', 'ประยุทธ์ มานะ',
-                'สุดา เรียบร้อย', 'อนุชา ตั้งใจ', 'มาลี สวยงาม', 'บุญมี ดีใจ', 'ชัยยา ชนะใจ',
-                'ธนา เจริญ', 'ปิยะ สุขใส', 'รัชนี มั่นใจ', 'สมศักดิ์ ภูมิใจ', 'วันดี มีสุข'
-            ];
-            
-            const departments = [
-                'ฝ่าย IT', 'ฝ่าย HR', 'ฝ่าย Account', 'ฝ่าย CS', 'ฝ่าย Cosmetic',
-                'ฝ่าย คลังสินค้า', 'ฝ่าย จัดซื้อ', 'ฝ่าย วิศวกรรม', 'ฝ่าย ตรวจสอบคุณภาพ'
-            ];
-            
-            const purposes = ['ใช้งานประจำ', 'โครงการพิเศษ', 'งานด่วน', 'ทดแทนของเสีย'];
-            const urgencies = ['ปกติ', 'เร่งด่วน', 'ด่วนมาก'];
-            const statuses = ['รออนุมัติ', 'อนุมัติแล้ว', 'ไม่อนุมัติ'];
-            
-            const sampleItems = [
-                { item: 'ปากกาลูกลื่น', quantity: 5, unit: 'ชิ้น' },
-                { item: 'กระดาษ A4', quantity: 2, unit: 'แพ็ค' },
-                { item: 'แฟ้ม', quantity: 10, unit: 'เล่ม' },
-                { item: 'ดินสอ', quantity: 12, unit: 'ชิ้น' },
-                { item: 'ยางลบ', quantity: 3, unit: 'ชิ้น' },
-                { item: 'ไม้บรรทัด', quantity: 2, unit: 'ชิ้น' },
-                { item: 'กรรไกร', quantity: 1, unit: 'ชิ้น' },
-                { item: 'กาว', quantity: 4, unit: 'ชิ้น' },
-                { item: 'เทป', quantity: 3, unit: 'ม้วน' },
-                { item: 'คลิป', quantity: 1, unit: 'กล่อง' }
-            ];
-            
-            for (let i = 0; i < 15; i++) {
-                const randomDate = new Date(today.getTime() - Math.random() * 30 * 24 * 60 * 60 * 1000);
-                const department = departments[Math.floor(Math.random() * departments.length)];
-                
-                // สุ่มรายการอุปกรณ์ 1-4 รายการ
-                const numItems = Math.floor(Math.random() * 4) + 1;
-                const selectedItems = [];
-                for (let j = 0; j < numItems; j++) {
-                    const randomItem = sampleItems[Math.floor(Math.random() * sampleItems.length)];
-                    selectedItems.push({
-                        item: randomItem.item,
-                        quantity: Math.floor(Math.random() * randomItem.quantity) + 1,
-                        unit: randomItem.unit
-                    });
-                }
-                
-                sampleData.push({
-                    id: Date.now() + i,
-                    employeeName: sampleNames[i],
-                    department: department,
-                    employeeId: `EMP${String(i + 1).padStart(3, '0')}`,
-                    purpose: purposes[Math.floor(Math.random() * purposes.length)],
-                    urgency: urgencies[Math.floor(Math.random() * urgencies.length)],
-                    notes: Math.random() > 0.5 ? 'สำหรับงานประจำ' : '',
-                    items: selectedItems,
-                    approver: getApproverEmail(department),
-                    status: statuses[Math.floor(Math.random() * statuses.length)],
-                    requestDate: randomDate.toLocaleDateString('th-TH'),
-                    requestTime: randomDate.toLocaleTimeString('th-TH')
-                });
-            }
-            
-            return sampleData;
+        function filterApproverRequests() {
+            updateApproverRequestsTable();
         }
 
-        function generateSampleReport() {
-            const sampleData = createSampleData();
-            const today = new Date();
-            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+        function refreshApproverData() {
+            // Reload data from localStorage
+            currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+            updateApproverData();
             
-            // ตั้งค่าช่วงเวลา 30 วันที่ผ่านมา
-            document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
-            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+            // Show refresh animation
+            const refreshBtn = event.target;
+            const originalHTML = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>กำลังรีเฟรช...';
+            refreshBtn.disabled = true;
             
-            // สร้างรายงานจากข้อมูลตัวอย่าง
-            generateStatsFromData(sampleData, thirtyDaysAgo, today);
-        }
-
-        function generateStatsFromData(data, startDate, endDate) {
-            // คำนวณสถิติ
-            const stats = {
-                total: data.length,
-                pending: data.filter(r => r.status === 'รออนุมัติ').length,
-                approved: data.filter(r => r.status === 'อนุมัติแล้ว').length,
-                rejected: data.filter(r => r.status === 'ไม่อนุมัติ').length
-            };
-
-            const uniqueRequesters = new Set(data.map(req => req.employeeId));
-            const totalRequesters = uniqueRequesters.size;
-
-            const departmentStats = {};
-            const requestersByDept = {};
-            
-            data.forEach(req => {
-                departmentStats[req.department] = (departmentStats[req.department] || 0) + 1;
-                
-                if (!requestersByDept[req.department]) {
-                    requestersByDept[req.department] = new Set();
-                }
-                requestersByDept[req.department].add(req.employeeId);
-            });
-
-            // สถิติอุปกรณ์ยอดนิยม
-            const itemStats = {};
-            data.forEach(req => {
-                req.items.forEach(item => {
-                    itemStats[item.item] = (itemStats[item.item] || 0) + item.quantity;
-                });
-            });
-
-            const topItems = Object.entries(itemStats)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 5);
-
-            // แสดงผลสถิติ
-            document.getElementById('statsResults').innerHTML = `
-                <!-- แสดงช่วงเวลาที่เลือก -->
-                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="font-semibold text-orange-800">📊 รายงานตัวอย่าง</h3>
-                            <p class="text-sm text-orange-700">ข้อมูลตัวอย่าง: ${startDate.toLocaleDateString('th-TH')} - ${endDate.toLocaleDateString('th-TH')}</p>
-                            <p class="text-xs text-orange-600 mt-1">⚠️ นี่เป็นข้อมูลตัวอย่างเพื่อการทดสอบระบบ</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-sm text-orange-600">ข้อมูลตัวอย่าง</div>
-                            <div class="text-lg font-bold text-orange-800">${data.length} รายการ</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                    <div class="bg-blue-100 p-4 rounded-lg text-center status-card">
-                        <div class="text-2xl font-bold text-blue-600">${stats.total}</div>
-                        <div class="text-sm text-blue-800">คำขอทั้งหมด</div>
-                    </div>
-                    <div class="bg-purple-100 p-4 rounded-lg text-center status-card">
-                        <div class="text-2xl font-bold text-purple-600">${totalRequesters}</div>
-                        <div class="text-sm text-purple-800">จำนวนผู้เบิก</div>
-                    </div>
-                    <div class="bg-yellow-100 p-4 rounded-lg text-center status-card">
-                        <div class="text-2xl font-bold text-yellow-600">${stats.pending}</div>
-                        <div class="text-sm text-yellow-800">รออนุมัติ</div>
-                    </div>
-                    <div class="bg-green-100 p-4 rounded-lg text-center status-card">
-                        <div class="text-2xl font-bold text-green-600">${stats.approved}</div>
-                        <div class="text-sm text-green-800">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="bg-red-100 p-4 rounded-lg text-center status-card">
-                        <div class="text-2xl font-bold text-red-600">${stats.rejected}</div>
-                        <div class="text-sm text-red-800">ไม่อนุมัติ</div>
-                    </div>
-                </div>
-                
-                <!-- กราฟแสดงผล -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">📊 สถานะคำขอ</h3>
-                        <div class="relative h-64">
-                            <canvas id="statusChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">🏢 คำขอตามแผนก</h3>
-                        <div class="relative h-64">
-                            <canvas id="departmentChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">📝 อุปกรณ์ยอดนิยม (Top 5)</h3>
-                        <div class="relative h-64">
-                            <canvas id="itemChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-4 text-center">👥 จำนวนผู้เบิกตามแผนก</h3>
-                        <div class="relative h-64">
-                            <canvas id="requesterChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-3">📊 สถิติคำขอตามแผนก</h3>
-                        ${Object.keys(departmentStats).length > 0 ? 
-                            Object.entries(departmentStats)
-                                .sort((a, b) => b[1] - a[1])
-                                .map(([dept, count]) => `
-                                    <div class="flex justify-between py-2 border-b">
-                                        <span>${dept}</span>
-                                        <span class="font-semibold">${count} คำขอ</span>
-                                    </div>
-                                `).join('') 
-                            : '<div class="text-center py-4 text-gray-500">ไม่มีข้อมูล</div>'
-                        }
-                    </div>
-                    <div class="bg-white border rounded-lg p-4">
-                        <h3 class="font-semibold mb-3">👥 จำนวนผู้เบิกตามแผนก</h3>
-                        ${Object.keys(requestersByDept).length > 0 ? 
-                            Object.entries(requestersByDept)
-                                .sort((a, b) => b[1].size - a[1].size)
-                                .map(([dept, requesters]) => `
-                                    <div class="flex justify-between py-2 border-b">
-                                        <span>${dept}</span>
-                                        <span class="font-semibold">${requesters.size} คน</span>
-                                    </div>
-                                `).join('')
-                            : '<div class="text-center py-4 text-gray-500">ไม่มีข้อมูล</div>'
-                        }
-                    </div>
-                </div>
-            `;
-
-            // สร้างกราฟหลังจากที่ HTML ถูกเพิ่มแล้ว
             setTimeout(() => {
-                createCharts(stats, departmentStats, requestersByDept, topItems);
-            }, 100);
+                refreshBtn.innerHTML = originalHTML;
+                refreshBtn.disabled = false;
+            }, 1000);
         }
 
-        function createCharts(stats, departmentStats, requestersByDept, topItems) {
-            // กราฟวงกลมสถานะคำขอ
-            const statusCtx = document.getElementById('statusChart');
-            if (statusCtx) {
-                new Chart(statusCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['รออนุมัติ', 'อนุมัติแล้ว', 'ไม่อนุมัติ'],
-                        datasets: [{
-                            data: [stats.pending, stats.approved, stats.rejected],
-                            backgroundColor: ['#FCD34D', '#10B981', '#EF4444'],
-                            borderWidth: 2,
-                            borderColor: '#ffffff'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 20,
-                                    font: {
-                                        family: 'Sarabun'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // กราฟแท่งคำขอตามแผนก
-            const deptCtx = document.getElementById('departmentChart');
-            if (deptCtx) {
-                const deptLabels = Object.keys(departmentStats).map(dept => dept.replace('ฝ่าย ', ''));
-                const deptData = Object.values(departmentStats);
-                
-                new Chart(deptCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: deptLabels,
-                        datasets: [{
-                            label: 'จำนวนคำขอ',
-                            data: deptData,
-                            backgroundColor: '#3B82F6',
-                            borderColor: '#1D4ED8',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    maxRotation: 45,
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // กราฟแท่งอุปกรณ์ยอดนิยม
-            const itemCtx = document.getElementById('itemChart');
-            if (itemCtx && topItems.length > 0) {
-                new Chart(itemCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: topItems.map(item => item[0]),
-                        datasets: [{
-                            label: 'จำนวนที่เบิก',
-                            data: topItems.map(item => item[1]),
-                            backgroundColor: '#10B981',
-                            borderColor: '#059669',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    maxRotation: 45,
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // กราฟแท่งจำนวนผู้เบิกตามแผนก
-            const requesterCtx = document.getElementById('requesterChart');
-            if (requesterCtx) {
-                const requesterLabels = Object.keys(requestersByDept).map(dept => dept.replace('ฝ่าย ', ''));
-                const requesterData = Object.values(requestersByDept).map(set => set.size);
-                
-                new Chart(requesterCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: requesterLabels,
-                        datasets: [{
-                            label: 'จำนวนผู้เบิก',
-                            data: requesterData,
-                            backgroundColor: '#8B5CF6',
-                            borderColor: '#7C3AED',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    maxRotation: 45,
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
+        function quickApprove(requestId) {
+            if (confirm('คุณต้องการอนุมัติคำขอนี้หรือไม่?')) {
+                const requestIndex = currentRequests.findIndex(r => r.id === requestId);
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'อนุมัติ';
+                    currentRequests[requestIndex].approvedAt = new Date().toISOString();
+                    currentRequests[requestIndex].approvedBy = currentApproverEmail;
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    
+                    // Send approval email
+                    sendApprovalEmail(currentRequests[requestIndex], true);
+                    
+                    updateApproverData();
+                    
+                    // Show success message
+                    alert('อนุมัติคำขอเรียบร้อยแล้ว');
+                }
             }
         }
+
+        function quickReject(requestId) {
+            const reason = prompt('กรุณาระบุเหตุผลในการไม่อนุมัติ:');
+            if (reason !== null && reason.trim() !== '') {
+                const requestIndex = currentRequests.findIndex(r => r.id === requestId);
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'ไม่อนุมัติ';
+                    currentRequests[requestIndex].rejectedAt = new Date().toISOString();
+                    currentRequests[requestIndex].rejectionReason = reason;
+                    currentRequests[requestIndex].rejectedBy = currentApproverEmail;
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    
+                    // Send rejection email
+                    sendApprovalEmail(currentRequests[requestIndex], false);
+                    
+                    updateApproverData();
+                    
+                    // Show success message
+                    alert('ไม่อนุมัติคำขอเรียบร้อยแล้ว');
+                }
+            }
+        }
+
+        // Admin approval functions
+        function adminApproveRequest(requestId) {
+            console.log('Admin approving request:', requestId);
+            if (confirm('คุณต้องการอนุมัติคำขอนี้หรือไม่?')) {
+                // Reload current requests to ensure we have latest data
+                currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+                
+                const requestIndex = currentRequests.findIndex(r => r.id == requestId);
+                console.log('Found request at index:', requestIndex);
+                
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'อนุมัติ';
+                    currentRequests[requestIndex].approvedAt = new Date().toISOString();
+                    currentRequests[requestIndex].approvedBy = 'admin';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    console.log('Request approved and saved');
+                    
+                    // Send approval email
+                    sendApprovalEmail(currentRequests[requestIndex], true);
+                    
+                    // Update admin data display
+                    updateAdminData();
+                    
+                    // Show success message
+                    alert('อนุมัติคำขอเรียบร้อยแล้ว');
+                } else {
+                    console.error('Request not found with ID:', requestId);
+                    alert('ไม่พบคำขอที่ต้องการอนุมัติ');
+                }
+            }
+        }
+
+        function adminRejectRequest(requestId) {
+            console.log('Admin rejecting request:', requestId);
+            const reason = prompt('กรุณาระบุเหตุผลในการไม่อนุมัติ:');
+            if (reason !== null && reason.trim() !== '') {
+                // Reload current requests to ensure we have latest data
+                currentRequests = JSON.parse(localStorage.getItem('officeSupplyRequests') || '[]');
+                
+                const requestIndex = currentRequests.findIndex(r => r.id == requestId);
+                console.log('Found request at index:', requestIndex);
+                
+                if (requestIndex !== -1) {
+                    currentRequests[requestIndex].status = 'ไม่อนุมัติ';
+                    currentRequests[requestIndex].rejectedAt = new Date().toISOString();
+                    currentRequests[requestIndex].rejectionReason = reason;
+                    currentRequests[requestIndex].rejectedBy = 'admin';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('officeSupplyRequests', JSON.stringify(currentRequests));
+                    console.log('Request rejected and saved');
+                    
+                    // Send rejection email
+                    sendApprovalEmail(currentRequests[requestIndex], false);
+                    
+                    // Update admin data display
+                    updateAdminData();
+                    
+                    // Show success message
+                    alert('ไม่อนุมัติคำขอเรียบร้อยแล้ว');
+                } else {
+                    console.error('Request not found with ID:', requestId);
+                    alert('ไม่พบคำขอที่ต้องการไม่อนุมัติ');
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showWelcome();
+            updateApproverDropdown();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96bcf64413457b66',t:'MTc1NDYzNDU5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96f5b734d1027b40',t:'MTc1NTIyOTY5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
